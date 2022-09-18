@@ -77,6 +77,7 @@ router.post(
             const payload = {
                 user: {
                     id: user.id,
+                    roles: user.roles,
                 },
             };
 
@@ -96,6 +97,7 @@ router.post(
                         .json({
                             status: 200,
                             message: 'Successfully logged in',
+                            token: token,
                         });
                 }
             );

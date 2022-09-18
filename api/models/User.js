@@ -14,6 +14,10 @@ const UserSchema = mongoose.Schema({
         type: String,
         required: true,
     },
+    roles: {
+        type: [String],
+        default: 'student',
+    },
     registry_date: {
         type: Date,
         default: Date.now,
