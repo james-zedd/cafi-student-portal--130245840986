@@ -4,15 +4,18 @@ const UserSchema = mongoose.Schema({
     name: {
         type: String,
         required: true,
+        maxLength: 50,
     },
     email: {
         type: String,
         required: true,
         unique: true,
+        maxLength: 70,
     },
     password: {
         type: String,
         required: true,
+        maxLength: 50,
     },
     roles: {
         type: [String],
