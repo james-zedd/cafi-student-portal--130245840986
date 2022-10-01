@@ -27,6 +27,16 @@ router.get('/admin/:id', jwtauth, hasRole(['hanshi']), (req, res) => {
     });
 });
 
+// @route  POST /api/askHanshi/admin
+// @desc   Hanshi answers a question
+// @secure true
+router.post('/admin', jwtauth, hasRole(['hanshi']), (req, res) => {
+    res.status(200).json({
+        status: 200,
+        message: 'accessed POST askHanshi/admin route',
+    });
+});
+
 // @route  PUT /api/askHanshi/admin/:id
 // @desc   update a single reply to a question
 // @secure true
@@ -55,16 +65,6 @@ router.get('/reply', jwtauth, (req, res) => {
     res.status(200).json({
         status: 200,
         message: 'accessed GET askHanshi/reply route',
-    });
-});
-
-// @route  POST /api/askHanshi/reply
-// @desc   Hanshi answers a question
-// @secure true
-router.post('/reply', jwtauth, (req, res) => {
-    res.status(200).json({
-        status: 200,
-        message: 'accessed POST askHanshi/reply route',
     });
 });
 
