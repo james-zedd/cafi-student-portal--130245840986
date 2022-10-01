@@ -6,10 +6,9 @@ const jwt = require('jsonwebtoken');
 
 const User = require('../models/User');
 
-// @route POST /api/users
-// Add a user
-// protected == false
-// TEMPORARILY DISABLED
+// @route  POST /api/users
+// @desc   Add a user
+// @secure false
 router.post(
     '/',
     [

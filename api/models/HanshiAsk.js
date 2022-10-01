@@ -15,6 +15,17 @@ const HanshiAskSchema = mongoose.Schema({
         type: Date,
         default: Date.now,
     },
+    status: {
+        type: String,
+        enum: [
+            'new',
+            'inReview',
+            'isAnswered',
+            'cannotBeAnswered',
+            'duplicate',
+        ],
+        default: 'new',
+    },
     isAnswered: {
         type: Boolean,
         default: false,

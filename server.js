@@ -11,7 +11,7 @@ const mongoConnection = require('./api/config/db');
 const corsOptions = {
     origin: ['http://localhost:3000'],
     optionSuccessStatus: 200,
-    methods: ['GET', 'POST'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'httponly', 'Authorization'],
 };
 app.use(cors(corsOptions));
@@ -28,6 +28,9 @@ mongoConnection();
 // Define Routes
 app.use('/api/users', require('./api/routes/users'));
 app.use('/api/auth', require('./api/routes/auth'));
+app.use('/api/news', require('./api/routes/news'));
+app.use('/api/askHanshi', require('./api/routes/askHanshi'));
+app.use('/api/exams', require('./api/routes/exams'));
 
 const PORT = process.env.PORT || 5500;
 
