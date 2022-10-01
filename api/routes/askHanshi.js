@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const jwtauth = require('../middleware/jwtauth');
+const hasRole = require('../middleware/hasrole');
 
 const HanshiAsk = require('../models/HanshiAsk');
 const HanshiAnswer = require('../models/HanshiAnswer');
@@ -8,7 +9,7 @@ const HanshiAnswer = require('../models/HanshiAnswer');
 // @route  GET /api/askHanshi/admin
 // @desc   get all questions asked
 // @secure true
-router.get('/admin', jwtauth, (req, res) => {
+router.get('/admin', jwtauth, hasRole(['hanshi']), (req, res) => {
     res.status(200).json({
         status: 200,
         message: 'accessed GET askHanshi/admin route',
@@ -18,7 +19,7 @@ router.get('/admin', jwtauth, (req, res) => {
 // @route  GET /api/askHanshi/admin/:id
 // @desc   get a single question asked
 // @secure true
-router.get('/admin/:id', jwtauth, (req, res) => {
+router.get('/admin/:id', jwtauth, hasRole(['hanshi']), (req, res) => {
     res.status(200).json({
         status: 200,
         message: 'accessed GET askHanshi/admin/:id route',
@@ -29,7 +30,7 @@ router.get('/admin/:id', jwtauth, (req, res) => {
 // @route  PUT /api/askHanshi/admin/:id
 // @desc   update a single reply to a question
 // @secure true
-router.put('/admin/:id', jwtauth, (req, res) => {
+router.put('/admin/:id', jwtauth, hasRole(['hanshi']), (req, res) => {
     res.status(200).json({
         status: 200,
         message: 'accessed PUT askHanshi/admin/:id route',
