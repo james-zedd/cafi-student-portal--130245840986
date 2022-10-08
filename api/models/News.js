@@ -4,12 +4,6 @@ const NewsSchema = mongoose.Schema({
     publisher: {
         type: String,
         required: true,
-        // needs user reference based on logged in user
-    },
-    title: {
-        type: String,
-        required: true,
-        maxLength: 100,
     },
     body: {
         type: String,

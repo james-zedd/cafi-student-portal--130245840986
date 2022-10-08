@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
+const { check } = require('express-validator');
 const jwtauth = require('../middleware/jwtauth');
 
-const News = require('../models/News');
+const { getAllNewsItems, createNewsItem } = require('../controllers/news');
 
 // @route  GET /api/news
 // @desc   get all news feed items
@@ -17,12 +18,12 @@ router.get('/', jwtauth, (req, res) => {
 // @route  POST /api/news
 // @desc   create a news item
 // @secure true
-router.post('/', jwtauth, (req, res) => {
-    res.status(200).json({
-        status: 200,
-        message: 'accessed POST news route',
-    });
-});
+router.post(
+    '/',
+    jwtauth,
+    [check('body', 'Please add some text to your post').not().isEmpty()],
+    createNewsItem
+);
 
 // @route  PUT /api/news/:id
 // @desc   update a news item
