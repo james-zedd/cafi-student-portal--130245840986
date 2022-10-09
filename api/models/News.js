@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
+const User = require('../models/User');
 
 const NewsSchema = mongoose.Schema({
     publisher: {
-        type: String,
-        required: true,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: User,
     },
     body: {
         type: String,

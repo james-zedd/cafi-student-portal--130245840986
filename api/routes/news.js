@@ -8,12 +8,7 @@ const { getAllNewsItems, createNewsItem } = require('../controllers/news');
 // @route  GET /api/news
 // @desc   get all news feed items
 // @secure true
-router.get('/', jwtauth, (req, res) => {
-    res.status(200).json({
-        status: 200,
-        message: 'accessed GET news route',
-    });
-});
+router.get('/', jwtauth, getAllNewsItems);
 
 // @route  POST /api/news
 // @desc   create a news item
