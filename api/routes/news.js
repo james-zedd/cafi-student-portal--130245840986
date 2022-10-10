@@ -1,45 +1,48 @@
 const express = require('express');
 const router = express.Router();
 const { check } = require('express-validator');
-const jwtauth = require('../middleware/jwtauth');
+const checkValidatorErrors = require('../middleware/checkValidatorErrors');
+const newsItemValidator = require('../middleware/newsItemValidator');
+const jwtAuth = require('../middleware/jwtAuth');
 
-const { getAllNewsItems, createNewsItem } = require('../controllers/news');
+const {
+    getAllNewsItems,
+    createNewsItem,
+    updateNewsItem,
+    deleteNewsItem,
+} = require('../controllers/news');
 
 // @route  GET /api/news
 // @desc   get all news feed items
 // @secure true
-router.get('/', jwtauth, getAllNewsItems);
+router.get('/', jwtAuth, getAllNewsItems);
 
 // @route  POST /api/news
 // @desc   create a news item
 // @secure true
 router.post(
     '/',
-    jwtauth,
+    jwtAuth,
     [check('body', 'Please add some text to your post').not().isEmpty()],
+    checkValidatorErrors,
     createNewsItem
 );
 
-// @route  PUT /api/news/:id
+// @route  PATCH /api/news/:id
 // @desc   update a news item
 // @secure true
-router.put('/:id', jwtauth, (req, res) => {
-    res.status(200).json({
-        status: 200,
-        message: 'accessed PUT news route',
-        id: req.params.id,
-    });
-});
+router.patch(
+    '/:id',
+    jwtAuth,
+    [check('body', 'Please add some text to your post').not().isEmpty()],
+    checkValidatorErrors,
+    newsItemValidator,
+    updateNewsItem
+);
 
 // @route  DELETE /api/news/:id
 // @desc   delete a news item
 // @secure true
-router.delete('/:id', jwtauth, (req, res) => {
-    res.status(200).json({
-        status: 200,
-        message: 'accessed DELETE news route',
-        id: req.params.id,
-    });
-});
+router.delete('/:id', jwtAuth, newsItemValidator, deleteNewsItem);
 
 module.exports = router;

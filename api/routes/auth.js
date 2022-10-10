@@ -3,14 +3,14 @@ const router = express.Router();
 const { check, validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const jwtauth = require('../middleware/jwtauth');
+const jwtAuth = require('../middleware/jwtAuth');
 
 const User = require('../models/User');
 
 // @route  GET /api/auth
 // @desc   get logged in user
 // @secure true
-router.get('/', jwtauth, async (req, res) => {
+router.get('/', jwtAuth, async (req, res) => {
     try {
         const user = await User.findById(req.user.id).select('-password');
 
@@ -115,7 +115,7 @@ router.post(
 // @route  GET /api/auth/logout
 // @desc   log out current user
 // @secure true
-router.get('/logout', jwtauth, (req, res) => {
+router.get('/logout', jwtAuth, (req, res) => {
     res.clearCookie('cafiStudent').status(200).json({
         status: 200,
         message: 'Successfully logged user out',

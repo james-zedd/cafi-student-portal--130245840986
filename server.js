@@ -4,6 +4,7 @@ const app = express();
 const dotenv = require('dotenv').config();
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const { errorHandler } = require('./api/middleware/errorHandler');
 
 const mongoConnection = require('./api/config/db');
 
@@ -31,6 +32,9 @@ app.use('/api/auth', require('./api/routes/auth'));
 app.use('/api/news', require('./api/routes/news'));
 app.use('/api/askHanshi', require('./api/routes/askHanshi'));
 app.use('/api/exams', require('./api/routes/exams'));
+
+// error handler
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5500;
 

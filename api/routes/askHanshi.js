@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const jwtauth = require('../middleware/jwtauth');
-const hasRole = require('../middleware/hasrole');
+const jwtAuth = require('../middleware/jwtAuth');
+const hasRole = require('../middleware/hasRole');
 
 const HanshiAsk = require('../models/HanshiAsk');
 const HanshiAnswer = require('../models/HanshiAnswer');
@@ -9,7 +9,7 @@ const HanshiAnswer = require('../models/HanshiAnswer');
 // @route  GET /api/askHanshi/admin
 // @desc   get all questions asked
 // @secure true
-router.get('/admin', jwtauth, hasRole(['hanshi']), (req, res) => {
+router.get('/admin', jwtAuth, hasRole(['hanshi']), (req, res) => {
     res.status(200).json({
         status: 200,
         message: 'accessed GET askHanshi/admin route',
@@ -19,7 +19,7 @@ router.get('/admin', jwtauth, hasRole(['hanshi']), (req, res) => {
 // @route  GET /api/askHanshi/admin/:id
 // @desc   get a single question asked
 // @secure true
-router.get('/admin/:id', jwtauth, hasRole(['hanshi']), (req, res) => {
+router.get('/admin/:id', jwtAuth, hasRole(['hanshi']), (req, res) => {
     res.status(200).json({
         status: 200,
         message: 'accessed GET askHanshi/admin/:id route',
@@ -30,7 +30,7 @@ router.get('/admin/:id', jwtauth, hasRole(['hanshi']), (req, res) => {
 // @route  POST /api/askHanshi/admin
 // @desc   Hanshi answers a question
 // @secure true
-router.post('/admin', jwtauth, hasRole(['hanshi']), (req, res) => {
+router.post('/admin', jwtAuth, hasRole(['hanshi']), (req, res) => {
     res.status(200).json({
         status: 200,
         message: 'accessed POST askHanshi/admin route',
@@ -40,7 +40,7 @@ router.post('/admin', jwtauth, hasRole(['hanshi']), (req, res) => {
 // @route  PUT /api/askHanshi/admin/:id
 // @desc   update a single reply to a question
 // @secure true
-router.put('/admin/:id', jwtauth, hasRole(['hanshi']), (req, res) => {
+router.put('/admin/:id', jwtAuth, hasRole(['hanshi']), (req, res) => {
     res.status(200).json({
         status: 200,
         message: 'accessed PUT askHanshi/admin/:id route',
@@ -51,7 +51,7 @@ router.put('/admin/:id', jwtauth, hasRole(['hanshi']), (req, res) => {
 // @route  POST /api/askHanshi
 // @desc   ask Hanshi a question
 // @secure true
-router.post('/', jwtauth, (req, res) => {
+router.post('/', jwtAuth, (req, res) => {
     res.status(200).json({
         status: 200,
         message: 'accessed POST askHanshi route',
@@ -61,7 +61,7 @@ router.post('/', jwtauth, (req, res) => {
 // @route  GET /api/askHanshi/reply
 // @desc   get all replies from Hanshi
 // @secure true
-router.get('/reply', jwtauth, (req, res) => {
+router.get('/reply', jwtAuth, (req, res) => {
     res.status(200).json({
         status: 200,
         message: 'accessed GET askHanshi/reply route',
@@ -71,7 +71,7 @@ router.get('/reply', jwtauth, (req, res) => {
 // @route  GET /api/askHanshi/reply/:id
 // @desc   get a single reply from Hanshi
 // @secure true
-router.get('/reply/:id', jwtauth, (req, res) => {
+router.get('/reply/:id', jwtAuth, (req, res) => {
     res.status(200).json({
         status: 200,
         message: 'accessed GET askHanshi/reply/:id route',

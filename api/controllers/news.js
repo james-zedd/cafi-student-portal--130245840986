@@ -1,11 +1,10 @@
-const { validationResult } = require('express-validator');
-const User = require('../models/User');
+const asyncHandler = require('express-async-handler');
 const News = require('../models/News');
 
 // @route  GET /api/news
 // @desc   get all news feed items
 // @secure true
-const getAllNewsItems = async (req, res) => {
+const getAllNewsItems = asyncHandler(async (req, res) => {
     try {
         const feed = await News.find().populate('publisher', 'name');
 
@@ -16,34 +15,20 @@ const getAllNewsItems = async (req, res) => {
         });
     } catch (error) {
         console.error(error.message);
-        res.status(500).send('server error');
+        res.status(500);
+        throw new Error(`Server error -- ${error.message}`);
     }
-};
+});
 
 // @route  POST /api/news
 // @desc   create a news item
 // @secure true
-const createNewsItem = async (req, res) => {
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-    }
-
+const createNewsItem = asyncHandler(async (req, res) => {
     const { body } = req.body;
-
-    const user = await User.findOne({ _id: req.user.id });
-
-    if (!user) {
-        res.status(400).json({
-            status: 400,
-            message: 'User not found.',
-        });
-    }
 
     try {
         const news = new News({
-            publisher: user._id,
+            publisher: req.user.id,
             body: body,
         });
 
@@ -55,11 +40,52 @@ const createNewsItem = async (req, res) => {
         });
     } catch (error) {
         console.error(error.message);
-        res.status(500).send('server error');
+        res.status(500);
+        throw new Error(`Server error -- ${error.message}`);
     }
-};
+});
+
+// @route  PATCH /api/news/:id
+// @desc   update a news item
+// @secure true
+const updateNewsItem = asyncHandler(async (req, res) => {
+    const { body } = req.body;
+
+    try {
+        await req.newsItem.updateOne({ body: body, lastUpdatedAt: Date.now() });
+
+        res.status(200).json({
+            status: 200,
+            message: 'News post has been updated.',
+        });
+    } catch (error) {
+        console.error(error.message);
+        res.status(500);
+        throw new Error(`Server error -- ${error.message}`);
+    }
+});
+
+// @route  DELETE /api/news/:id
+// @desc   delete a news item
+// @secure true
+const deleteNewsItem = asyncHandler(async (req, res) => {
+    try {
+        await req.newsItem.deleteOne({ _id: id });
+
+        res.status(200).json({
+            status: 200,
+            message: 'News post has been deleted.',
+        });
+    } catch (error) {
+        console.error(error.message);
+        res.status(500);
+        throw new Error(`Server error -- ${error.message}`);
+    }
+});
 
 module.exports = {
     getAllNewsItems,
     createNewsItem,
+    updateNewsItem,
+    deleteNewsItem,
 };

@@ -1,29 +1,34 @@
 {
-  "name": "cafi-student-portal--130245840986",
-  "version": "1.0.0",
-  "description": "MERN stack student portal for Chudokai Aikido Federation International",
-  "main": "server.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/james-zedd/cafi-student-portal--130245840986.git"
-  },
-  "author": "James Zedd",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/james-zedd/cafi-student-portal--130245840986/issues"
-  },
-  "homepage": "https://github.com/james-zedd/cafi-student-portal--130245840986#readme",
-  "dependencies": {
-    "bcryptjs": "^2.4.3",
-    "cookie-parser": "^1.4.6",
-    "cors": "^2.8.5",
-    "dotenv": "^16.0.2",
-    "express": "^4.18.1",
-    "express-validator": "^6.14.2",
-    "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.6.0"
-  }
+    "name": "cafi-student-portal--130245840986",
+    "version": "1.0.0",
+    "description": "MERN stack student portal for Chudokai Aikido Federation International",
+    "main": "server.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "dev": "nodemon server.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/james-zedd/cafi-student-portal--130245840986.git"
+    },
+    "author": "James Zedd",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/james-zedd/cafi-student-portal--130245840986/issues"
+    },
+    "homepage": "https://github.com/james-zedd/cafi-student-portal--130245840986#readme",
+    "dependencies": {
+        "bcryptjs": "^2.4.3",
+        "cookie-parser": "^1.4.6",
+        "cors": "^2.8.5",
+        "dotenv": "^16.0.2",
+        "express": "^4.18.1",
+        "express-async-handler": "^1.2.0",
+        "express-validator": "^6.14.2",
+        "jsonwebtoken": "^8.5.1",
+        "mongoose": "^6.6.0"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.20"
+    }
 }
