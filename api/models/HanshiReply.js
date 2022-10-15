@@ -1,15 +1,10 @@
 const mongoose = require('mongoose');
+const User = require('../models/User');
 
-const HanshiAnswerSchema = mongoose.Schema({
-    answerId: {
-        type: Number,
-        default: 10000,
-        // need system for incrementing
-    },
-    publisher: {
-        type: String,
-        required: true,
-        // insert into POST/PUT via JWT
+const HanshiReplySchema = mongoose.Schema({
+    inquirer: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: User,
     },
     title: {
         type: String,
@@ -27,7 +22,8 @@ const HanshiAnswerSchema = mongoose.Schema({
     },
     updatedAt: {
         type: Date,
+        default: Date.now,
     },
 });
 
-module.exports = mongoose.model('hanshiAnswer', HanshiAnswerSchema);
+module.exports = mongoose.model('hanshiReply', HanshiReplySchema);

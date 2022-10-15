@@ -30,7 +30,8 @@ mongoConnection();
 app.use('/api/users', require('./api/routes/users'));
 app.use('/api/auth', require('./api/routes/auth'));
 app.use('/api/news', require('./api/routes/news'));
-app.use('/api/askHanshi', require('./api/routes/askHanshi'));
+app.use('/api/hanshiAsk', require('./api/routes/hanshiAsk'));
+app.use('/api/hanshiReply', require('./api/routes/hanshiReply'));
 app.use('/api/exams', require('./api/routes/exams'));
 
 // error handler

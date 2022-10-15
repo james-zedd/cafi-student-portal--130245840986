@@ -1,15 +1,16 @@
 const mongoose = require('mongoose');
+const User = require('../models/User');
+const HanshiReply = require('../models/HanshiReply');
 
 const HanshiAskSchema = mongoose.Schema({
-    user: {
-        type: String,
-        required: true,
-        // needs user reference based on logged in user
+    inquirer: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: User,
     },
     body: {
         type: String,
         required: true,
-        maxLength: 1000,
+        maxLength: 5000,
     },
     createdAt: {
         type: Date,
@@ -33,6 +34,11 @@ const HanshiAskSchema = mongoose.Schema({
     cannotBeAnswered: {
         type: Boolean,
         default: false,
+    },
+    replyId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: HanshiReply,
+        default: '',
     },
 });
 
