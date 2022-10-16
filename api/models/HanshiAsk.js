@@ -38,7 +38,6 @@ const HanshiAskSchema = mongoose.Schema({
     replyId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: HanshiReply,
-        default: '',
     },
 });
 
