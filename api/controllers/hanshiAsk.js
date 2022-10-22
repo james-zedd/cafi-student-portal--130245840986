@@ -1,8 +1,6 @@
 const asyncHandler = require('express-async-handler');
 const HanshiAsk = require('../models/HanshiAsk');
 
-const mongoose = require('mongoose');
-
 // @route  GET /api/hanshiAsk/allQuestions
 // @desc   get all questions to Hanshi
 // @secure true
