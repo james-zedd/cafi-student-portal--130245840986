@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const jwtAuth = require('../middleware/jwtAuth');
 const hasRole = require('../middleware/hasRole');
+const isValidObjectId = require('../middleware/isValidObjectId');
 const { check } = require('express-validator');
 const checkValidatorErrors = require('../middleware/checkValidatorErrors');
 
@@ -23,7 +24,12 @@ router.get('/', jwtAuth, getAllReplies);
 // @route  GET /api/hanshiReply/:replyId
 // @desc   get a single reply from Hanshi
 // @secure true
-router.get('/:replyId', jwtAuth, getSingleReply);
+router.get(
+    '/:replyId',
+    jwtAuth,
+    isValidObjectId('paramsReply'),
+    getSingleReply
+);
 
 // @route  POST /api/hanshiReply
 // @desc   Hanshi answers a question
@@ -39,6 +45,8 @@ router.post(
             .isEmpty(),
     ],
     checkValidatorErrors,
+    isValidObjectId('bodyInquirer'),
+    isValidObjectId('bodyQuestion'),
     createReply
 );
 
@@ -56,12 +64,19 @@ router.put(
             .isEmpty(),
     ],
     checkValidatorErrors,
+    isValidObjectId('paramsReply'),
     updateReply
 );
 
 // @route  DELETE /api/hanshiReply/:replyId
 // @desc   delete a single reply
 // @secure true
-router.delete('/:replyId', jwtAuth, hasRole(['hanshi']), deleteReply);
+router.delete(
+    '/:replyId',
+    jwtAuth,
+    hasRole(['hanshi']),
+    isValidObjectId('paramsReply'),
+    deleteReply
+);
 
 module.exports = router;

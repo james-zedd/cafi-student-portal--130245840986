@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const jwtAuth = require('../middleware/jwtAuth');
 const hasRole = require('../middleware/hasRole');
+const isValidObjectId = require('../middleware/isValidObjectId');
 const { check } = require('express-validator');
 const checkValidatorErrors = require('../middleware/checkValidatorErrors');
 
@@ -27,6 +28,7 @@ router.get(
     '/allQuestions/:questionId',
     jwtAuth,
     hasRole(['hanshi']),
+    isValidObjectId('paramsQuestion'),
     singleQuestion
 );
 
@@ -38,7 +40,12 @@ router.get('/myQuestions', jwtAuth, myQuestions);
 // @route  GET /api/hanshiAsk/myQuestions/:questionId
 // @desc   get a single question to Hanshi by user and question id
 // @secure true
-router.get('/myQuestions/:questionId', jwtAuth, getQuestion);
+router.get(
+    '/myQuestions/:questionId',
+    jwtAuth,
+    isValidObjectId('paramsQuestion'),
+    getQuestion
+);
 
 // @route  POST /api/hanshiAsk
 // @desc   ask Hanshi a question

@@ -31,19 +31,21 @@ const getAllReplies = asyncHandler(async (req, res) => {
 const getSingleReply = asyncHandler(async (req, res) => {
     const replyId = req.params.replyId;
 
-    if (!mongoose.isValidObjectId(replyId)) {
-        res.status(400);
-        throw new Error('Reply Id is not valid.');
-    }
-
     let reply;
 
     try {
-        reply = await HanshiReply.findById(replyId);
+        reply = await HanshiReply.find({
+            _id: replyId,
+        });
     } catch (error) {
         console.error(error.message);
         res.status(500);
         throw new Error(`Server error -- ${error.message}`);
+    }
+
+    if (!reply.length) {
+        res.status(400);
+        throw new Error('Cannot find reply.');
     }
 
     res.status(200).json({
@@ -58,16 +60,6 @@ const getSingleReply = asyncHandler(async (req, res) => {
 // @secure true
 const createReply = asyncHandler(async (req, res) => {
     const { inquirerId, questionId, title, body } = req.body;
-
-    if (!mongoose.isValidObjectId(inquirerId)) {
-        res.status(400);
-        throw new Error('Inquirer Id is not valid.');
-    }
-
-    if (!mongoose.isValidObjectId(questionId)) {
-        res.status(400);
-        throw new Error('Question Id is not valid.');
-    }
 
     const reply = new HanshiReply({
         inquirer: inquirerId,
@@ -114,11 +106,6 @@ const updateReply = asyncHandler(async (req, res) => {
     const replyId = req.params.replyId;
     const { title, body } = req.body;
 
-    if (!mongoose.isValidObjectId(replyId)) {
-        res.status(400);
-        throw new Error('Reply Id is not valid.');
-    }
-
     try {
         await HanshiReply.findOneAndUpdate(
             { _id: replyId },
@@ -149,11 +136,6 @@ const updateReply = asyncHandler(async (req, res) => {
 // @secure true
 const deleteReply = asyncHandler(async (req, res) => {
     const replyId = req.params.replyId;
-
-    if (!mongoose.isValidObjectId(replyId)) {
-        res.status(400);
-        throw new Error('Reply Id is not valid.');
-    }
 
     try {
         await HanshiReply.findOneAndDelete({ _id: replyId });

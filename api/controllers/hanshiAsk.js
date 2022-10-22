@@ -28,11 +28,6 @@ const allQuestions = asyncHandler(async (req, res) => {
 const singleQuestion = asyncHandler(async (req, res) => {
     const questionId = req.params.questionId;
 
-    if (!mongoose.isValidObjectId(questionId)) {
-        res.status(400);
-        throw new Error('Question Id is not valid.');
-    }
-
     let question;
 
     try {
@@ -85,11 +80,6 @@ const getQuestion = asyncHandler(async (req, res) => {
     const questionId = req.params.questionId;
     const id = req.user.id;
 
-    if (!mongoose.isValidObjectId(questionId)) {
-        res.status(400);
-        throw new Error('Question Id is not valid.');
-    }
-
     let question;
 
     try {
@@ -125,8 +115,6 @@ const getQuestion = asyncHandler(async (req, res) => {
 const askQuestion = asyncHandler(async (req, res) => {
     const { body } = req.body;
     const id = req.user.id;
-
-    console.log('body');
 
     try {
         const question = new HanshiAsk({
