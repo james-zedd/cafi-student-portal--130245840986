@@ -27,6 +27,11 @@ module.exports = (idKey) => {
                 idText = 'Question';
                 break;
             }
+            case 'paramsExam': {
+                id = req.params.examId;
+                idText = 'Exam';
+                break;
+            }
         }
 
         if (!mongoose.isValidObjectId(id)) {

@@ -4,6 +4,7 @@ const TechniqueSchema = mongoose.Schema({
     techId: {
         type: String,
         required: true,
+        unique: true,
     },
     name: {
         english: {
@@ -15,17 +16,32 @@ const TechniqueSchema = mongoose.Schema({
             maxLength: 250,
         },
     },
+    isContainer: {
+        type: Boolean,
+        required: true,
+        default: false,
+    },
+    order: {
+        type: Number,
+        required: true,
+    },
+    orderVisible: {
+        type: String,
+        required: true,
+    },
     variants: {
         type: Array,
         // need reference to techniques
     },
-    irimiTenkan: {
-        type: String,
-        enum: ['irimi', 'tenkan'],
+    oyoWaza: {
+        type: Boolean,
+        required: true,
+        default: false,
     },
-    stance: {
-        type: String,
-        enum: ['aihanmi', 'gyakuhanmi'],
+    suwariTachiWaza: {
+        type: Boolean,
+        required: true,
+        default: false,
     },
 });
 

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const User = require('../models/User');
-const HanshiReply = require('../models/HanshiReply');
+const User = require('./User');
+const HanshiReply = require('./HanshiReply');
 
 const HanshiAskSchema = mongoose.Schema({
     inquirer: {
