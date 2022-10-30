@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const TechniqueSchema = mongoose.Schema({
+const VariantSchema = mongoose.Schema({
     techId: {
         type: String,
         required: true,
@@ -16,10 +16,11 @@ const TechniqueSchema = mongoose.Schema({
             maxLength: 250,
         },
     },
-    hasVariants: {
-        type: Boolean,
-        required: true,
-        default: false,
+    category: {
+        type: String,
+    },
+    heading: {
+        type: String,
     },
     order: {
         type: Number,
@@ -27,21 +28,15 @@ const TechniqueSchema = mongoose.Schema({
     },
     orderVisible: {
         type: String,
-        required: true,
-    },
-    variants: {
-        type: Array,
     },
     oyoWaza: {
         type: Boolean,
-        required: true,
         default: false,
     },
     suwariTachiWaza: {
         type: Boolean,
-        required: true,
         default: false,
     },
 });
 
-module.exports = mongoose.model('technique', TechniqueSchema);
+module.exports = mongoose.model('variant', VariantSchema);

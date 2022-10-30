@@ -3,10 +3,9 @@ const router = express.Router();
 const jwtAuth = require('../middleware/jwtAuth');
 const asyncHandler = require('express-async-handler');
 
-const Technique = require('../models/Technique');
 const Variant = require('../models/Variant');
 
-// @route  POST /api/techniques
+// @route  POST /api/variant
 // @desc   create a single technique
 // @secure true
 router.post(
@@ -17,46 +16,35 @@ router.post(
             techId,
             english,
             romanji,
-            isContainer,
+            category,
+            heading,
             order,
             orderVisible,
-            variants,
             oyoWaza,
             suwariTachiWaza,
         } = req.body;
 
-        const dbVariants = await Variant.find();
-
-        let variantArray = variants.map((variantId) => {
-            return dbVariants.filter((dbV) => dbV.techId === variantId);
-        });
-
-        const variantObjects = variantArray.reduce((acc, elem) => {
-            acc.push(elem[0]);
-            return acc;
-        }, []);
-
         try {
-            const technique = new Technique({
+            const variant = new Variant({
                 techId: techId,
                 name: {
                     english: english,
                     romanji: romanji,
                 },
-                isContainer: isContainer,
+                category: category,
+                heading: heading,
                 order: order,
                 orderVisible: orderVisible,
-                variants: variantObjects,
                 oyoWaza: oyoWaza,
                 suwariTachiWaza: suwariTachiWaza,
             });
 
-            await technique.save();
+            await variant.save();
 
             res.status(201).json({
                 status: 201,
-                message: 'New technique has been created',
-                data: technique,
+                message: 'New variant has been created',
+                data: variant,
             });
         } catch (error) {
             console.error(error.message);

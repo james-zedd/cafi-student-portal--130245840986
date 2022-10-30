@@ -34,6 +34,7 @@ app.use('/api/hanshiAsk', require('./api/routes/hanshiAsk'));
 app.use('/api/hanshiReply', require('./api/routes/hanshiReply'));
 app.use('/api/exams', require('./api/routes/exams'));
 app.use('/api/technique', require('./api/routes/technique'));
+app.use('/api/variant', require('./api/routes/variant'));
 
 // error handler
 app.use(errorHandler);
