@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-function Login() {
+function Login({ sendValidation }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    function submit() {
+    const navigate = useNavigate();
+
+    const LoginUser = async function () {
         const data = {
             email: email,
             password: password,
@@ -21,12 +26,24 @@ function Login() {
             body: JSON.stringify(data),
         };
 
-        fetch('http://localhost:5500/api/auth', options).then((res) =>
-            console.log('res', res)
-        );
+        const res = await fetch('http://localhost:5500/api/auth', options);
+
+        const json = await res.json();
+
+        // functionality if email/pw is junk
+        if (!json || json.status === 400) {
+            return toast.error('Could not log you in. Please try again.');
+        }
+
+        const validate = sendValidation();
+
+        if (validate) {
+            toast.success('Successfully logged in');
+            return navigate('/dashboard');
+        }
 
         // console.log('fetch data', fetch);
-    }
+    };
 
     return (
         <div className='flex flex-col justify-center items-center'>
@@ -54,12 +71,13 @@ function Login() {
                     />
                     <button
                         className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'
-                        onClick={submit}
+                        onClick={LoginUser}
                     >
                         Enter
                     </button>
                 </div>
             </div>
+            <ToastContainer />
         </div>
     );
 }

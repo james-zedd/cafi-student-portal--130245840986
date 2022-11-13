@@ -81,10 +81,21 @@ router.post(
                 },
             };
 
+            const currentDate = new Date();
+            const expiryTime = 3600;
+            const expiryTimeUnix = currentDate.getTime() + expiryTime * 1000;
+
+            console.log(
+                'current date',
+                currentDate,
+                'expiry time unix',
+                expiryTimeUnix
+            );
+
             jwt.sign(
                 payload,
                 process.env.JWT_SECRET,
-                { expiresIn: 3600 },
+                { expiresIn: expiryTime },
                 (err, token) => {
                     if (err) {
                         throw err;
@@ -94,6 +105,7 @@ router.post(
                             secure: process.env.NODE_ENV === 'production',
                             httpOnly: true,
                         })
+                        .cookie('cafiStudentSessionExp', expiryTimeUnix)
                         .json({
                             status: 200,
                             message: 'Successfully logged in',

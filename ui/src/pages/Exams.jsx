@@ -36,7 +36,7 @@ function Exams() {
                     <div key={exam._id} className='basis-1/2 px-4 py-2'>
                         <Link to={`/exams/${exam._id}`}>
                             <div
-                                className='flex justify-center items-center w-5/6 h-20 mx-auto border border-gray-900 bg-gray-600 rounded rounded-lg text-white font-bold cursor-pointer'
+                                className='flex justify-center items-center w-5/6 h-20 mx-auto border border-gray-900 bg-gray-600 rounded text-white font-bold cursor-pointer'
                                 onClick={() => handleClickExam(exam)}
                             >
                                 <p className='text-xl'>{exam.name.rankEng}</p>
