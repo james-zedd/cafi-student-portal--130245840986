@@ -8,10 +8,12 @@ const getAllNewsItems = asyncHandler(async (req, res) => {
     try {
         const feed = await News.find().populate('publisher', 'name');
 
+        const feedOrdered = feed.sort((a, b) => b.updatedAt - a.updatedAt);
+
         res.status(200).json({
             status: 200,
             message: 'Successfully retreived news feed',
-            data: feed,
+            data: feedOrdered,
         });
     } catch (error) {
         console.error(error.message);
