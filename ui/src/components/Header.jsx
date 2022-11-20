@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 // import { useRoles } from '../hooks/useRoles';
 import { Link, useNavigate } from 'react-router-dom';
+import { UserContext } from '../context/UserContext';
 
 function Header() {
     const [menuItems, setMenuItems] = useState([]);
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const { setUserRoles } = useContext(UserContext);
     // const [roles, setRoles] = useRoles();
 
     const navigate = useNavigate();
@@ -21,7 +22,7 @@ function Header() {
 
             console.log('header data', json, json.data.menuItems);
 
-            // setRoles(json.data.roles);
+            setUserRoles(json.data.roles);
             setMenuItems(json.data.menuItems);
         } catch (error) {
             console.log(error);
@@ -31,15 +32,11 @@ function Header() {
     async function handleLogout() {
         console.log('logout should fire');
         try {
-            const res = await fetch('http://localhost:5500/api/auth/logout', {
+            await fetch('http://localhost:5500/api/auth/logout', {
                 credentials: 'include',
             });
 
-            const json = await res.json();
-
-            if (json.status === 200) {
-                return navigate('/');
-            }
+            return navigate('/');
         } catch (error) {
             console.log(error);
         }
@@ -47,7 +44,7 @@ function Header() {
 
     function handleMenuClick() {
         console.log('menu click');
-        document.getElementById('navigation').classList.toggle('left-0');
+        document.getElementById('navigation').classList.toggle('!left-0');
         document.body.classList.toggle('overflow-hidden');
     }
 

@@ -19,7 +19,7 @@ const getAllReplies = asyncHandler(async (req, res) => {
     res.status(200).json({
         status: 200,
         message: 'Successfully got all Hanshi Replies',
-        replies: replies,
+        data: replies,
     });
 });
 
@@ -49,7 +49,7 @@ const getSingleReply = asyncHandler(async (req, res) => {
     res.status(200).json({
         status: 200,
         message: 'Successfully found reply.',
-        reply: reply,
+        data: reply,
     });
 });
 

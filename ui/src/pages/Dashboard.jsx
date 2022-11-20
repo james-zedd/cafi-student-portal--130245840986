@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import NewsItem from '../components/NewsItem';
 import resStatusCheck from '../hooks/resStatusCheck';
+import { UserContext } from '../context/UserContext';
 
 function Dashboard() {
     const [newsfeed, setNewsfeed] = useState([]);
     const [postNews, setPostNews] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const { isAdmin } = useContext(UserContext);
 
     async function submitNewsItem() {
         const input = {
@@ -70,24 +72,26 @@ function Dashboard() {
         <div>
             <h1 className='text-3xl font-bold mb-4'>Dashboard</h1>
             <div className='newsfeed flex flex-col px-4'>
-                <div className='flex flex-col w-full max-w-lg mx-auto mb-8'>
-                    <h2 className='font-bold text-xl mb-3'>
-                        Publish to News Feed
-                    </h2>
-                    <textarea
-                        name='news'
-                        id='news'
-                        value={postNews}
-                        className='mb-2 bg-transparent border border-gray-700 rounded p-1'
-                        onChange={(e) => setPostNews(e.target.value)}
-                    ></textarea>
-                    <button
-                        className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'
-                        onClick={submitNewsItem}
-                    >
-                        Enter
-                    </button>
-                </div>
+                {isAdmin && (
+                    <div className='flex flex-col w-full max-w-lg mx-auto mb-8'>
+                        <h2 className='font-bold text-xl mb-3'>
+                            Publish to News Feed
+                        </h2>
+                        <textarea
+                            name='news'
+                            id='news'
+                            value={postNews}
+                            className='mb-2 bg-transparent border border-gray-700 rounded p-1'
+                            onChange={(e) => setPostNews(e.target.value)}
+                        ></textarea>
+                        <button
+                            className='bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'
+                            onClick={submitNewsItem}
+                        >
+                            Enter
+                        </button>
+                    </div>
+                )}
                 {newsfeed.map((newsItem) => (
                     <NewsItem key={newsItem._id} item={newsItem} />
                 ))}

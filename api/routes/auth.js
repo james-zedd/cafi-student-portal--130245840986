@@ -147,7 +147,7 @@ router.get('/header', jwtAuth, (req, res) => {
         { name: 'Dashboard', path: 'dashboard' },
         { name: 'Exams', path: 'exams' },
         { name: 'Student Inquiries', path: 'studentInquiries' },
-        { name: 'Hanshi Notes', path: 'hanshiNotes' }
+        { name: 'Hanshi Articles', path: 'articlesHanshi' }
     );
 
     if (req.user.roles.includes('admin')) {
