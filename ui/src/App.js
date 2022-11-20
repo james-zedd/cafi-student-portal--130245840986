@@ -13,6 +13,7 @@ import StudentInquiry from './pages/StudentInquiry';
 import ArticlesHanshi from './pages/ArticlesHanshi';
 import ArticleForm from './pages/ArticleForm';
 import Article from './pages/Article';
+import AskQuestion from './pages/AskQuestion';
 import NotFound from './pages/NotFound';
 
 const ProtectedRoute = ({ isValid, children }) => {
@@ -138,6 +139,14 @@ function App() {
                                 }
                             />
                         </Route>
+                        <Route
+                            path='/askQuestion'
+                            element={
+                                <ProtectedRoute isValid={isValidSession}>
+                                    <AskQuestion />
+                                </ProtectedRoute>
+                            }
+                        />
                         {isHanshi && (
                             <Route path='/article'>
                                 <Route

@@ -154,6 +154,10 @@ router.get('/header', jwtAuth, (req, res) => {
         menuItems.push({ name: 'Create Article', path: 'article' });
     }
 
+    if (!req.user.roles.includes('hanshi')) {
+        menuItems.push({ name: 'Ask Question', path: 'askQuestion' });
+    }
+
     res.status(200).json({
         status: 200,
         message: 'Successfully fetched header',
