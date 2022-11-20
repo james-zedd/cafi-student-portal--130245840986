@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { UserContext } from '../context/UserContext';
 
 function StudentInquiry() {
     const [isLoading, setIsLoading] = useState(false);
     const [inquiry, setInquiry] = useState(null);
     const { id } = useParams();
     const navigate = useNavigate();
+    const { isHanshi } = useContext(UserContext);
 
     async function getInquiry() {
         try {
@@ -54,6 +56,20 @@ function StudentInquiry() {
                 >
                     Back
                 </button>
+                {isHanshi && (
+                    <div>
+                        <button
+                            className='mt-8 border border-blue-900 rounded px-2 py-1 bg-blue-500 hover:bg-blue-700 text-white font-bold'
+                            onClick={() =>
+                                navigate(
+                                    `/article/reply/${id}?inquirerId=${inquiry.inquirer._id}`
+                                )
+                            }
+                        >
+                            Reply to Question
+                        </button>
+                    </div>
+                )}
             </div>
         );
     }

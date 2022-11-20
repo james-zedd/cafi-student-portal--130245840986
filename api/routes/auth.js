@@ -150,8 +150,8 @@ router.get('/header', jwtAuth, (req, res) => {
         { name: 'Hanshi Articles', path: 'articlesHanshi' }
     );
 
-    if (req.user.roles.includes('admin')) {
-        menuItems.push('create news item');
+    if (req.user.roles.includes('hanshi')) {
+        menuItems.push({ name: 'Create Article', path: 'article' });
     }
 
     res.status(200).json({

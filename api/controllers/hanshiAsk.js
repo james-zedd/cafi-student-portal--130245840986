@@ -33,6 +33,8 @@ const allQuestions = asyncHandler(async (req, res) => {
 const singleQuestion = asyncHandler(async (req, res) => {
     const questionId = req.params.questionId;
 
+    console.log('question id', questionId);
+
     let question;
 
     try {
@@ -49,6 +51,8 @@ const singleQuestion = asyncHandler(async (req, res) => {
         res.status(400);
         throw new Error('Cannot find question.');
     }
+
+    console.log('question', question);
 
     // console.log('user', req.user);
     // console.log('question', question);

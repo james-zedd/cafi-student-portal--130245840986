@@ -97,12 +97,11 @@ const createReply = asyncHandler(async (req, res) => {
     });
 });
 
-// @route  PUT /api/hanshiReply/:replyId
+// @route  PUT /api/hanshiReply
 // @desc   update a single reply
 // @secure true
 const updateReply = asyncHandler(async (req, res) => {
-    const replyId = req.params.replyId;
-    const { title, body } = req.body;
+    const { replyId, title, body } = req.body;
 
     try {
         await HanshiReply.findOneAndUpdate(

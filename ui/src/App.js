@@ -11,6 +11,7 @@ import Exam from './pages/Exam';
 import StudentInquiries from './pages/StudentInquiries';
 import StudentInquiry from './pages/StudentInquiry';
 import ArticlesHanshi from './pages/ArticlesHanshi';
+import ArticleForm from './pages/ArticleForm';
 import Article from './pages/Article';
 import NotFound from './pages/NotFound';
 
@@ -137,6 +138,30 @@ function App() {
                                 }
                             />
                         </Route>
+                        {isHanshi && (
+                            <Route path='/article'>
+                                <Route
+                                    path='reply/:id'
+                                    element={
+                                        <ProtectedRoute
+                                            isValid={isValidSession}
+                                        >
+                                            <ArticleForm action={'reply'} />
+                                        </ProtectedRoute>
+                                    }
+                                />
+                                <Route
+                                    path='edit/:id'
+                                    element={
+                                        <ProtectedRoute
+                                            isValid={isValidSession}
+                                        >
+                                            <ArticleForm action={'edit'} />
+                                        </ProtectedRoute>
+                                    }
+                                />
+                            </Route>
+                        )}
                         <Route
                             path='*'
                             element={

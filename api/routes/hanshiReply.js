@@ -50,11 +50,11 @@ router.post(
     createReply
 );
 
-// @route  PUT/api/hanshiReply/:replyId
+// @route  PUT/api/hanshiReply
 // @desc   update a single reply
 // @secure true
 router.put(
-    '/:replyId',
+    '/',
     jwtAuth,
     hasRole(['hanshi']),
     [
@@ -64,7 +64,7 @@ router.put(
             .isEmpty(),
     ],
     checkValidatorErrors,
-    isValidObjectId('paramsReply'),
+    isValidObjectId('bodyReply'),
     updateReply
 );
 

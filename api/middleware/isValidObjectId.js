@@ -27,6 +27,11 @@ module.exports = (idKey) => {
                 idText = 'Question';
                 break;
             }
+            case 'bodyReply': {
+                id = req.body.replyId;
+                idText = 'Reply';
+                break;
+            }
             case 'paramsExam': {
                 id = req.params.examId;
                 idText = 'Exam';
