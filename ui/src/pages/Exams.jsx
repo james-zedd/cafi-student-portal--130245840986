@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 function Exams() {
     const [exams, setExams] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     function handleClickExam(exam) {
         console.log('click exam', exam);
@@ -18,15 +19,21 @@ function Exams() {
 
             console.log('exams', exams, exams.data);
 
-            return setExams(exams.data);
+            setExams(exams.data);
+            setIsLoading(false);
         } catch (error) {
             console.log(error);
         }
     }
 
     useEffect(() => {
+        setIsLoading(true);
         getExams();
     }, []);
+
+    if (isLoading) {
+        return <p>Loading ... </p>;
+    }
 
     return (
         <div>

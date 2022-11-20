@@ -1,24 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import TechniqueItem from '../components/TechniqueItem';
 
-function Exam() {
+function StudentInquiry() {
     const [isLoading, setIsLoading] = useState(false);
-    const [exam, setExam] = useState(null);
+    const [inquiry, setInquiry] = useState(null);
     const { id } = useParams();
     const navigate = useNavigate();
 
-    async function getExam() {
+    async function getInquiry() {
         try {
-            const res = await fetch(`http://localhost:5500/api/exams/${id}`, {
-                credentials: 'include',
-            });
+            const res = await fetch(
+                `http://localhost:5500/api/hanshiAsk/allQuestions/${id}`,
+                {
+                    credentials: 'include',
+                }
+            );
 
-            const exam = await res.json();
+            console.log('res', res);
 
-            console.log('exam', exam, exam.data[0]);
+            const inquiry = await res.json();
 
-            setExam(exam.data[0]);
+            console.log('inquiry', inquiry);
+
+            setInquiry(inquiry.data[0]);
             setIsLoading(false);
         } catch (error) {
             console.log(error);
@@ -27,25 +31,22 @@ function Exam() {
 
     useEffect(() => {
         console.log('use effect ran');
-        getExam();
+        setIsLoading(true);
+        getInquiry();
     }, []);
 
     if (isLoading) {
-        return <p>Loading ... </p>;
+        <p>Loading ... </p>;
     }
 
-    if (exam) {
+    if (inquiry) {
         return (
             <div>
                 <div>
                     <h1 className='text-3xl font-bold mb-4'>
-                        {exam.name.rankEng} - {exam.name.belt} Exam
+                        Student Question
                     </h1>
-                    <div className='flex flex-col'>
-                        {exam.techniques.map((tech) => (
-                            <TechniqueItem key={tech._id} technique={tech} />
-                        ))}
-                    </div>
+                    <div className='flex flex-col'>{inquiry.body}</div>
                 </div>
                 <button
                     className='mt-8 border border-black rounded px-2 py-1 bg-gray-300'
@@ -58,4 +59,4 @@ function Exam() {
     }
 }
 
-export default Exam;
+export default StudentInquiry;

@@ -1,17 +1,24 @@
 const asyncHandler = require('express-async-handler');
 const HanshiAsk = require('../models/HanshiAsk');
+const mongoose = require('mongoose');
 
 // @route  GET /api/hanshiAsk/allQuestions
 // @desc   get all questions to Hanshi
 // @secure true
 const allQuestions = asyncHandler(async (req, res) => {
+    let inquiryDetails = {};
+
+    if (!req.user.roles.includes('hanshi')) {
+        inquiryDetails.inquirer = req.user.id;
+    }
+
     try {
-        const questions = await HanshiAsk.find();
+        const questions = await HanshiAsk.find(inquiryDetails);
 
         res.status(200).json({
             status: 200,
             message: 'Fetched all questions.',
-            questions: questions,
+            data: questions,
         });
     } catch (error) {
         console.error(error.message);
@@ -31,7 +38,7 @@ const singleQuestion = asyncHandler(async (req, res) => {
     try {
         question = await HanshiAsk.find({
             _id: questionId,
-        });
+        }).populate('inquirer', '_id name');
     } catch (error) {
         console.error(error.message);
         res.status(500);
@@ -43,32 +50,31 @@ const singleQuestion = asyncHandler(async (req, res) => {
         throw new Error('Cannot find question.');
     }
 
+    // console.log('user', req.user);
+    // console.log('question', question);
+    // console.log('req.user', req.user);
+    // const userObjectId = mongoose.Types.ObjectId(req.user.id);
+    // console.log('user id', req.user.id, question[0].inquirer._id.toString());
+    // console.log(
+    //     'did it work?!!?!',
+    //     req.user.id !== question[0].inquirer._id.toString(),
+    //     !req.user.roles.includes('hanshi')
+    // );
+
+    if (!req.user.roles.includes('hanshi')) {
+        if (req.user.id !== question[0].inquirer._id.toString()) {
+            res.status(403);
+            throw new Error(
+                'You do not have permission to view this question.'
+            );
+        }
+    }
+
     res.status(200).json({
         status: 200,
         message: 'Fetched question.',
-        question: question,
+        data: question,
     });
-});
-
-// @route  GET /api/hanshiAsk/myQuestions
-// @desc   get all questions to Hanshi by user
-// @secure true
-const myQuestions = asyncHandler(async (req, res) => {
-    const id = req.user.id;
-
-    try {
-        const questions = await HanshiAsk.find({ inquirer: id });
-
-        res.status(200).json({
-            status: 200,
-            message: 'Fetched all questions for user.',
-            questions: questions,
-        });
-    } catch (error) {
-        console.error(error.message);
-        res.status(500);
-        throw new Error(`Server error -- ${error.message}`);
-    }
 });
 
 // @route  GET /api/hanshiAsk/myQuestions/:questionId
@@ -103,7 +109,7 @@ const getQuestion = asyncHandler(async (req, res) => {
     res.status(200).json({
         status: 200,
         message: 'Fetched question for user.',
-        question: question,
+        data: question,
     });
 });
 
@@ -137,7 +143,7 @@ const askQuestion = asyncHandler(async (req, res) => {
 module.exports = {
     allQuestions,
     singleQuestion,
-    myQuestions,
+    // myQuestions,
     getQuestion,
     askQuestion,
 };

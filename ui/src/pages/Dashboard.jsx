@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import NewsItem from '../components/NewsItem';
+import resStatusCheck from '../hooks/resStatusCheck';
 
 function Dashboard() {
     const [newsfeed, setNewsfeed] = useState([]);
     const [postNews, setPostNews] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
     async function submitNewsItem() {
         const input = {
@@ -35,19 +37,34 @@ function Dashboard() {
                 credentials: 'include',
             });
 
+            if (res.status == 401) {
+                console.log('res status is 401', res.status);
+                throw Error;
+            }
+
+            console.log('res', res);
+
+            resStatusCheck(res);
+
             const newsItems = await res.json();
 
             console.log('news items', newsItems, newsItems.data);
 
-            return setNewsfeed(newsItems.data);
+            setNewsfeed(newsItems.data);
+            setIsLoading(false);
         } catch (error) {
-            console.log(error);
+            console.log(error.message);
         }
     }
 
     useEffect(() => {
+        setIsLoading(true);
         getNewsfeed();
     }, []);
+
+    if (isLoading) {
+        <p>Loading ... </p>;
+    }
 
     return (
         <div>

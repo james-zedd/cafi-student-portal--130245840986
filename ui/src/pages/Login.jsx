@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+// import { useFetch } from '../hooks/useFetch';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -29,6 +30,8 @@ function Login({ sendValidation }) {
         const res = await fetch('http://localhost:5500/api/auth', options);
 
         const json = await res.json();
+
+        console.log('json login', json);
 
         // functionality if email/pw is junk
         if (!json || json.status === 400) {

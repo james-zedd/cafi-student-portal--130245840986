@@ -9,7 +9,7 @@ module.exports = (requiredRoles) => {
         if (hasRole) {
             return next();
         } else {
-            res.status(401);
+            res.status(403);
             throw new Error('You do not have the required role(s).');
         }
     });

@@ -11,7 +11,7 @@ const HanshiAsk = require('../models/HanshiAsk');
 const {
     allQuestions,
     singleQuestion,
-    myQuestions,
+    // myQuestions,
     getQuestion,
     askQuestion,
 } = require('../controllers/hanshiAsk');
@@ -19,7 +19,7 @@ const {
 // @route  GET /api/hanshiAsk/allQuestions
 // @desc   get all questions to Hanshi
 // @secure true
-router.get('/allQuestions', jwtAuth, hasRole(['hanshi']), allQuestions);
+router.get('/allQuestions', jwtAuth, allQuestions);
 
 // @route  GET /api/hanshiAsk/allQuestions/:questionId
 // @desc   get a single question to Hanshi by question id
@@ -27,7 +27,6 @@ router.get('/allQuestions', jwtAuth, hasRole(['hanshi']), allQuestions);
 router.get(
     '/allQuestions/:questionId',
     jwtAuth,
-    hasRole(['hanshi']),
     isValidObjectId('paramsQuestion'),
     singleQuestion
 );
@@ -35,7 +34,7 @@ router.get(
 // @route  GET /api/hanshiAsk/myQuestions
 // @desc   get all questions to Hanshi by user
 // @secure true
-router.get('/myQuestions', jwtAuth, myQuestions);
+// [REMOVED] router.get('/myQuestions', jwtAuth, myQuestions);
 
 // @route  GET /api/hanshiAsk/myQuestions/:questionId
 // @desc   get a single question to Hanshi by user and question id

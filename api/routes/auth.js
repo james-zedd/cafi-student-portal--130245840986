@@ -82,7 +82,7 @@ router.post(
             };
 
             const currentDate = new Date();
-            const expiryTime = 3600;
+            const expiryTime = 300;
             const expiryTimeUnix = currentDate.getTime() + expiryTime * 1000;
 
             console.log(
@@ -128,9 +128,39 @@ router.post(
 // @desc   log out current user
 // @secure true
 router.get('/logout', jwtAuth, (req, res) => {
-    res.clearCookie('cafiStudent').status(200).json({
+    res.clearCookie('cafiStudent')
+        .clearCookie('cafiStudentSessionExp')
+        .status(200)
+        .json({
+            status: 200,
+            message: 'Successfully logged user out',
+        });
+});
+
+// @route  GET /api/auth/header
+// @desc   get header for user
+// @secure true
+router.get('/header', jwtAuth, (req, res) => {
+    let menuItems = [];
+
+    menuItems.push(
+        { name: 'Dashboard', path: 'dashboard' },
+        { name: 'Exams', path: 'exams' },
+        { name: 'Student Inquiries', path: 'studentInquiries' },
+        { name: 'Hanshi Notes', path: 'hanshiNotes' }
+    );
+
+    if (req.user.roles.includes('admin')) {
+        menuItems.push('create news item');
+    }
+
+    res.status(200).json({
         status: 200,
-        message: 'Successfully logged user out',
+        message: 'Successfully fetched header',
+        data: {
+            menuItems: menuItems,
+            roles: req.user.roles,
+        },
     });
 });
 
