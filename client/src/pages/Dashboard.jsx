@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
 import NewsItem from '../components/NewsItem';
-import resStatusCheck from '../hooks/resStatusCheck';
 import { UserContext } from '../context/UserContext';
 
 function Dashboard() {
@@ -39,14 +38,12 @@ function Dashboard() {
                 credentials: 'include',
             });
 
-            if (res.status == 401) {
+            if (res.status === 401) {
                 console.log('res status is 401', res.status);
                 throw Error;
             }
 
             console.log('res', res);
-
-            resStatusCheck(res);
 
             const newsItems = await res.json();
 

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-// import { useFetch } from '../hooks/useFetch';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -44,8 +43,6 @@ function Login({ sendValidation }) {
             toast.success('Successfully logged in');
             return navigate('/dashboard');
         }
-
-        // console.log('fetch data', fetch);
     };
 
     return (

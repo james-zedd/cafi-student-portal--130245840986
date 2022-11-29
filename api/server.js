@@ -8,6 +8,11 @@ const { errorHandler } = require('./middleware/errorHandler');
 
 const mongoConnection = require('./config/db');
 
+// disable console.log except in development environment
+if (!process.env.NODE_ENVIRONMENT === 'development') {
+    console.log = () => {};
+}
+
 // Middleware: CORS
 const corsOptions = {
     origin: ['http://localhost:3000'],
