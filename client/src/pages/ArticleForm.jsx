@@ -5,17 +5,10 @@ import { ToastContainer, toast } from 'react-toastify';
 function ArticleForm({ action }) {
     const [title, setTitle] = useState('');
     const [body, setBody] = useState('');
-    // const [id, setId] = useState('');
     const { id } = useParams();
     const inquirerId =
         new URLSearchParams(useLocation().search).get('inquirerId') || null;
     const navigate = useNavigate();
-
-    // function checkAction() {
-    //     console.log('action', action);
-    //     console.log('id', id);
-    //     console.log('inquirer id', inquirerId);
-    // }
 
     async function editPost() {
         console.log('edit post fired');
@@ -99,14 +92,9 @@ function ArticleForm({ action }) {
 
     useEffect(() => {
         if (action === 'edit') {
-            console.log('you are editing an article');
             editPost();
         }
     }, []);
-
-    // useEffect(() => {
-    //     checkAction();
-    // }, []);
 
     return (
         <div>

@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
-// import { useRoles } from '../hooks/useRoles';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserContext } from '../context/UserContext';
 
 function Header() {
     const [menuItems, setMenuItems] = useState([]);
     const { setUserRoles } = useContext(UserContext);
-    // const [roles, setRoles] = useRoles();
 
     const navigate = useNavigate();
 
@@ -30,7 +28,6 @@ function Header() {
     }
 
     async function handleLogout() {
-        console.log('logout should fire');
         try {
             await fetch('http://localhost:5500/api/auth/logout', {
                 credentials: 'include',

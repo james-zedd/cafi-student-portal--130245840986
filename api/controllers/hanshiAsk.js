@@ -54,17 +54,6 @@ const singleQuestion = asyncHandler(async (req, res) => {
 
     console.log('question', question);
 
-    // console.log('user', req.user);
-    // console.log('question', question);
-    // console.log('req.user', req.user);
-    // const userObjectId = mongoose.Types.ObjectId(req.user.id);
-    // console.log('user id', req.user.id, question[0].inquirer._id.toString());
-    // console.log(
-    //     'did it work?!!?!',
-    //     req.user.id !== question[0].inquirer._id.toString(),
-    //     !req.user.roles.includes('hanshi')
-    // );
-
     if (!req.user.roles.includes('hanshi')) {
         if (req.user.id !== question[0].inquirer._id.toString()) {
             res.status(403);
