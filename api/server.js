@@ -4,9 +4,9 @@ const app = express();
 const dotenv = require('dotenv').config();
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
-const { errorHandler } = require('./api/middleware/errorHandler');
+const { errorHandler } = require('./middleware/errorHandler');
 
-const mongoConnection = require('./api/config/db');
+const mongoConnection = require('./config/db');
 
 // Middleware: CORS
 const corsOptions = {
@@ -28,14 +28,14 @@ app.use(cookieParser());
 mongoConnection();
 
 // Define Routes
-app.use('/api/users', require('./api/routes/users'));
-app.use('/api/auth', require('./api/routes/auth'));
-app.use('/api/news', require('./api/routes/news'));
-app.use('/api/hanshiAsk', require('./api/routes/hanshiAsk'));
-app.use('/api/hanshiReply', require('./api/routes/hanshiReply'));
-app.use('/api/exams', require('./api/routes/exams'));
-app.use('/api/technique', require('./api/routes/technique'));
-app.use('/api/variant', require('./api/routes/variant'));
+app.use('/api/users', require('./routes/users'));
+app.use('/api/auth', require('./routes/auth'));
+app.use('/api/news', require('./routes/news'));
+app.use('/api/hanshiAsk', require('./routes/hanshiAsk'));
+app.use('/api/hanshiReply', require('./routes/hanshiReply'));
+app.use('/api/exams', require('./routes/exams'));
+app.use('/api/technique', require('./routes/technique'));
+app.use('/api/variant', require('./routes/variant'));
 
 // error handler
 app.use(errorHandler);
