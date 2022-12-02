@@ -15,7 +15,7 @@ if (!process.env.NODE_ENVIRONMENT === 'development') {
 
 // Middleware: CORS
 const corsOptions = {
-    origin: ['http://localhost:3000'],
+    origin: ['http://localhost:3000', 'http://44.201.131.141:80'],
     optionSuccessStatus: 200,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
