@@ -151,7 +151,7 @@ router.get('/header', jwtAuth, (req, res) => {
     );
 
     if (req.user.roles.includes('hanshi')) {
-        menuItems.push({ name: 'Create Article', path: 'article' });
+        menuItems.push({ name: 'Create Article', path: 'article/create' });
     }
 
     if (!req.user.roles.includes('hanshi')) {

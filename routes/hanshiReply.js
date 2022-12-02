@@ -12,6 +12,7 @@ const {
     getAllReplies,
     getSingleReply,
     createReply,
+    createArticle,
     updateReply,
     deleteReply,
 } = require('../controllers/hanshiReply');
@@ -48,6 +49,23 @@ router.post(
     isValidObjectId('bodyInquirer'),
     isValidObjectId('bodyQuestion'),
     createReply
+);
+
+// @route  POST /api/hanshiReply/create
+// @desc   Hanshi creates an article
+// @secure true
+router.post(
+    '/create',
+    jwtAuth,
+    hasRole(['hanshi']),
+    [
+        check('title', 'Please add a title to this reply.').not().isEmpty(),
+        check('body', 'Please add some text to the body of this reply.')
+            .not()
+            .isEmpty(),
+    ],
+    checkValidatorErrors,
+    createArticle
 );
 
 // @route  PUT/api/hanshiReply

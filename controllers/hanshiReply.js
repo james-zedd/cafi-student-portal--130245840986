@@ -93,7 +93,33 @@ const createReply = asyncHandler(async (req, res) => {
     res.status(201).json({
         status: 201,
         message: 'New reply has been created.',
-        reply: reply,
+        data: reply,
+    });
+});
+
+// @route  POST /api/hanshiReply/create
+// @desc   Hanshi creates an article
+// @secure true
+const createArticle = asyncHandler(async (req, res) => {
+    const { title, body } = req.body;
+
+    const article = new HanshiReply({
+        title: title,
+        body: body,
+    });
+
+    try {
+        await article.save();
+    } catch (error) {
+        console.error(error.message);
+        res.status(500);
+        throw new Error(`Server error -- ${error.message}`);
+    }
+
+    res.status(201).json({
+        status: 201,
+        message: 'New article has been created.',
+        data: article,
     });
 });
 
@@ -155,6 +181,7 @@ module.exports = {
     getAllReplies,
     getSingleReply,
     createReply,
+    createArticle,
     updateReply,
     deleteReply,
 };
