@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
+const jwtAuth = require('../middleware/jwtAuth');
+const postBlock = require('../middleware/postBlock');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
@@ -11,6 +13,8 @@ const User = require('../models/User');
 // @secure false
 router.post(
     '/',
+    jwtAuth,
+    postBlock,
     [
         check('name', 'Please add a name').not().isEmpty(),
         check('email', 'Please enter a valid email').isEmail(),
