@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const jwtAuth = require('../middleware/jwtAuth');
+const postBlock = require('../middleware/postBlock');
 const asyncHandler = require('express-async-handler');
 
 const Technique = require('../models/Technique');
@@ -12,6 +13,7 @@ const Variant = require('../models/Variant');
 router.post(
     '/',
     jwtAuth,
+    postBlock,
     asyncHandler(async (req, res) => {
         const {
             techId,

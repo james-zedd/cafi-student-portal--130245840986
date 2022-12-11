@@ -12,7 +12,7 @@ const { errorHandler } = require('./middleware/errorHandler');
 const mongoConnection = require('./config/db');
 
 // disable console.log except in development environment
-if (!process.env.NODE_ENVIRONMENT === 'development') {
+if (!process.env.NODE_ENVIRONMENT == 'development') {
     console.log = () => {};
 }
 

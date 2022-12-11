@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const jwtAuth = require('../middleware/jwtAuth');
+const postBlock = require('../middleware/postBlock');
 const isValidObjectId = require('../middleware/isValidObjectId');
 
 const { getAllExams, getExam, createExam } = require('../controllers/exams');
@@ -18,6 +19,6 @@ router.get('/:examId', jwtAuth, isValidObjectId('paramsExam'), getExam);
 // @route  POST /api/exams
 // @desc   create a single exam
 // @secure true
-router.post('/', jwtAuth, createExam);
+router.post('/', jwtAuth, postBlock, createExam);
 
 module.exports = router;
