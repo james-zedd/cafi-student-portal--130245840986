@@ -82,7 +82,7 @@ router.post(
             };
 
             const currentDate = new Date();
-            const expiryTime = 300;
+            const expiryTime = 1800;
             const expiryTimeUnix = currentDate.getTime() + expiryTime * 1000;
 
             console.log(
