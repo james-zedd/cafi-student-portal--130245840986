@@ -1,7 +1,10 @@
 const express = require('express');
 const res = require('express/lib/response');
 const app = express();
-const dotenv = require('dotenv').config();
+const path = require('path');
+const dotenv = require('dotenv').config({
+    path: path.resolve(__dirname, './.env'),
+});
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const { errorHandler } = require('./middleware/errorHandler');
@@ -15,7 +18,10 @@ if (!process.env.NODE_ENVIRONMENT === 'development') {
 
 // Middleware: CORS
 const corsOptions = {
-    origin: ['http://localhost:3000', 'http://44.201.131.141:80'],
+    origin: [
+        'http://localhost:3000',
+        'http://portal.chudokaiaikidofederationinternational.org',
+    ],
     optionSuccessStatus: 200,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
