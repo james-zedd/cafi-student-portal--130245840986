@@ -21,6 +21,7 @@ const corsOptions = {
     origin: [
         'http://localhost:3000',
         'http://portal.chudokaiaikidofederationinternational.org',
+        'https://benevolent-melomakarona-b9b612.netlify.app/',
     ],
     optionSuccessStatus: 200,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
