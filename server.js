@@ -39,6 +39,9 @@ app.use(cookieParser());
 // Initialize DB via mongoose
 mongoConnection();
 
+// Static files
+app.use(express.static(path.join(__dirname, 'public')));
+
 // Define Routes
 app.use('/api/users', require('./routes/users'));
 app.use('/api/auth', require('./routes/auth'));

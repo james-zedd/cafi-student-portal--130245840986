@@ -14,8 +14,25 @@ const UserSchema = mongoose.Schema({
     },
     password: {
         type: String,
-        required: true,
         maxLength: 100,
+    },
+    googleId: {
+        type: String,
+    },
+    appleId: {
+        type: String,
+    },
+    refreshTokens: [
+        {
+            token: { type: String, required: true },
+            createdAt: { type: Date, default: Date.now },
+        },
+    ],
+    resetPasswordToken: {
+        type: String,
+    },
+    resetPasswordExpires: {
+        type: Date,
     },
     roles: {
         type: [String],
