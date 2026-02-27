@@ -124,6 +124,11 @@ router.post(
                 message: 'Successfully logged in',
                 token: accessToken,
                 refreshToken,
+                user: {
+                    name: user.name,
+                    email: user.email,
+                    roles: user.roles,
+                }
             });
         } catch (error) {
             console.error(error.message);
@@ -338,6 +343,11 @@ router.post('/refresh', async (req, res) => {
             message: 'Token refreshed',
             token: newAccessToken,
             refreshToken: newRefreshToken,
+            user: {
+                name: user.name,
+                email: user.email,
+                roles: user.roles,
+            }
         });
     } catch (error) {
         // jwt.verify throws if expired or invalid
@@ -397,6 +407,11 @@ router.post('/google', async (req, res) => {
             message: 'Successfully signed in with Google',
             token: accessToken,
             refreshToken,
+            user: {
+                name: user.name,
+                email: user.email,
+                roles: user.roles,
+            }
         });
     } catch (error) {
         console.error(error.message);
@@ -461,6 +476,11 @@ router.post('/apple', async (req, res) => {
             message: 'Successfully signed in with Apple',
             token: accessToken,
             refreshToken,
+            user: {
+                name: user.name,
+                email: user.email,
+                roles: user.roles,
+            }
         });
     } catch (error) {
         console.error(error.message);
