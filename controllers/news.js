@@ -22,6 +22,30 @@ const getAllNewsItems = asyncHandler(async (req, res) => {
     }
 });
 
+// @route  GET /api/news/:id
+// @desc   get a news item by id
+// @secure true
+const getNewsItemById = asyncHandler(async (req, res) => {
+    try {
+        const newsItem = await News.findById(req.params.id).populate('publisher', 'name');
+
+        if (!newsItem) {
+            res.status(404);
+            throw new Error('News post not found.');
+        }
+
+        res.status(200).json({
+            status: 200,
+            message: 'Successfully retreived news item',
+            data: newsItem,
+        });
+    } catch (error) {
+        console.error(error.message);
+        res.status(500);
+        throw new Error(`Server error -- ${error.message}`);
+    }
+});
+
 // @route  POST /api/news
 // @desc   create a news item
 // @secure true
@@ -67,6 +91,30 @@ const updateNewsItem = asyncHandler(async (req, res) => {
     }
 });
 
+// @route  PATCH /api/news/toggle-visibility-many
+// @desc   toggle visibility of many news items
+// @secure true
+const toggleVisibilityManyNewsItems = asyncHandler(async (req, res) => {
+    const { newsItemIds } = req.body;
+    console.log(newsItemIds);
+
+    try {
+        await News.updateMany(
+            { _id: { $in: newsItemIds } },
+            [{ $set: { visible: { $not: '$visible' } } }]
+        );
+
+        res.status(200).json({
+            status: 200,
+            message: 'News post visibility has been toggled.',
+        });
+    } catch (error) {
+        console.error(error.message);
+        res.status(500);
+        throw new Error(`Server error -- ${error.message}`);
+    }
+});
+
 // @route  DELETE /api/news/:id
 // @desc   delete a news item
 // @secure true
@@ -87,7 +135,9 @@ const deleteNewsItem = asyncHandler(async (req, res) => {
 
 module.exports = {
     getAllNewsItems,
+    getNewsItemById,
     createNewsItem,
     updateNewsItem,
+    toggleVisibilityManyNewsItems,
     deleteNewsItem,
 };

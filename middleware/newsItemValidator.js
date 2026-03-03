@@ -19,13 +19,15 @@ module.exports = asyncHandler(async (req, res, next) => {
         throw new Error('No news item found.');
     }
 
-    const publisher = req.user.id;
+    if (req.method === 'PATCH' || req.method === 'DELETE') {
+        const publisher = req.user.id;
 
-    if (publisher !== newsItem.publisher.toString()) {
-        res.status(401);
-        throw new Error(
-            'You are not the original publisher of this news item.'
-        );
+        if (publisher !== newsItem.publisher.toString()) {
+            res.status(401);
+            throw new Error(
+                'You are not the original publisher of this news item.'
+            );
+        }
     }
 
     req.newsItem = newsItem;

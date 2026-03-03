@@ -7,8 +7,10 @@ const jwtAuth = require('../middleware/jwtAuth');
 
 const {
     getAllNewsItems,
+    getNewsItemById,
     createNewsItem,
     updateNewsItem,
+    toggleVisibilityManyNewsItems,
     deleteNewsItem,
 } = require('../controllers/news');
 
@@ -16,6 +18,11 @@ const {
 // @desc   get all news feed items
 // @secure true
 router.get('/', jwtAuth, getAllNewsItems);
+
+// @route  GET /api/news/:id
+// @desc   get a news item by id
+// @secure true
+router.get('/:id', jwtAuth, newsItemValidator, getNewsItemById);
 
 // @route  POST /api/news
 // @desc   create a news item
@@ -26,6 +33,17 @@ router.post(
     [check('body', 'Please add some text to your post').not().isEmpty()],
     checkValidatorErrors,
     createNewsItem
+);
+
+// @route  PATCH /api/news/toggle-visibility-many
+// @desc   toggle visibility of many news items
+// @secure true
+router.patch(
+    '/toggle-visibility-many',
+    jwtAuth,
+    [check('newsItemIds', 'Please provide an array of news item ids').isArray({ min: 1 })],
+    checkValidatorErrors,
+    toggleVisibilityManyNewsItems
 );
 
 // @route  PATCH /api/news/:id
