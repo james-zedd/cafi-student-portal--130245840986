@@ -7,9 +7,34 @@ const crypto = require('crypto');
 const { Resend } = require('resend');
 const { OAuth2Client } = require('google-auth-library');
 const appleSignin = require('apple-signin-auth');
+const rateLimit = require('express-rate-limit');
 const jwtAuth = require('../middleware/jwtAuth');
 
 const User = require('../models/User');
+
+const loginLimiter = rateLimit({
+    windowMs: 60 * 60 * 1000,
+    max: 10,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { status: 429, message: 'Too many login attempts, please try again in 15 minutes.' },
+});
+
+const forgotPasswordLimiter = rateLimit({
+    windowMs: 60 * 60 * 1000,
+    max: 5,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { status: 429, message: 'Too many password reset requests, please try again in an hour.' },
+});
+
+const socialLoginLimiter = rateLimit({
+    windowMs: 60 * 60 * 1000,
+    max: 10,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { status: 429, message: 'Too many sign-in attempts, please try again in 15 minutes.' },
+});
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
@@ -58,6 +83,7 @@ router.get('/', jwtAuth, async (req, res) => {
 // @secure false
 router.post(
     '/',
+    loginLimiter,
     [
         check('email', 'Please include a valid email').isEmail(),
         check('password', 'Password is required').exists(),
@@ -204,6 +230,7 @@ router.get('/header', jwtAuth, (req, res) => {
 // @secure false
 router.post(
     '/forgot-password',
+    forgotPasswordLimiter,
     [check('email', 'Please include a valid email').isEmail()],
     async (req, res) => {
         const errors = validationResult(req);
@@ -358,7 +385,7 @@ router.post('/refresh', async (req, res) => {
 // @route  POST /api/auth/google
 // @desc   sign in or register with Google
 // @secure false
-router.post('/google', async (req, res) => {
+router.post('/google', socialLoginLimiter, async (req, res) => {
     const { idToken } = req.body;
 
     if (!idToken) {
@@ -368,7 +395,7 @@ router.post('/google', async (req, res) => {
     try {
         const ticket = await googleClient.verifyIdToken({
             idToken,
-            audience: [process.env.GOOGLE_CLIENT_ID, process.env.GOOGLE_CLIENT_ID_ANDROID],
+            audience: [process.env.GOOGLE_CLIENT_ID, process.env.GOOGLE_CLIENT_ID_WEB],
         });
 
         const { sub: googleId, email, name } = ticket.getPayload();
@@ -422,7 +449,7 @@ router.post('/google', async (req, res) => {
 // @route  POST /api/auth/apple
 // @desc   sign in with Apple
 // @secure false
-router.post('/apple', async (req, res) => {
+router.post('/apple', socialLoginLimiter, async (req, res) => {
     const { identityToken, fullName } = req.body;
 
     if (!identityToken) {

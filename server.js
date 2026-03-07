@@ -7,6 +7,7 @@ const dotenv = require('dotenv').config({
 });
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const rateLimit = require('express-rate-limit');
 const { errorHandler } = require('./middleware/errorHandler');
 
 const mongoConnection = require('./config/db');
@@ -29,6 +30,15 @@ const corsOptions = {
     allowedHeaders: ['Content-Type', 'httponly', 'Authorization'],
 };
 app.use(cors(corsOptions));
+
+// Middleware: Rate limiting (general)
+app.use(rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 200,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { status: 429, message: 'Too many requests, please try again later.' },
+}));
 
 // Middleware: Body Parser
 app.use(express.json());
