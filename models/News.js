@@ -19,6 +19,10 @@ const NewsSchema = mongoose.Schema({
         type: Date,
         default: Date.now,
     },
+    title: {
+        type: String,
+        maxLength: 100,
+    }
 });
 
 module.exports = mongoose.model('news', NewsSchema);
