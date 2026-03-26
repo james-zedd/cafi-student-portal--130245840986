@@ -61,6 +61,7 @@ app.use('/api/hanshiReply', require('./routes/hanshiReply'));
 app.use('/api/exams', require('./routes/exams'));
 app.use('/api/technique', require('./routes/technique'));
 app.use('/api/variant', require('./routes/variant'));
+app.use('/api/kotoshitsumon', require('./routes/kotoShitsumon'));
 
 // error handler
 app.use(errorHandler);

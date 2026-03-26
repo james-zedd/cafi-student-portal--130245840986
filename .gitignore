@@ -6,3 +6,6 @@ node_modules/
 
 # yaml files
 app.yaml
+
+# .DS_Store files (macOS)
+.DS_Store
