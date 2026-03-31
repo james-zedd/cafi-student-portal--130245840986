@@ -7,17 +7,11 @@ const DanShiteWazaSchema = mongoose.Schema({
         unique: true,
     },
     attack_name: {
-        type: {
-            romanji: { type: String, required: true },
-            english: { type: String, required: true },
-        },
+        type: Object,
         required: true,
     },
     technique_name: {
-        type: {
-            romanji: { type: String, required: true },
-            english: { type: String, required: true },
-        },
+        type: Object,
         required: true,
     },
     variants: {
@@ -32,10 +26,10 @@ const DanShiteWazaSchema = mongoose.Schema({
         type: Boolean,
         required: true,
     },
-    notes: {
-        type: [Object],
-        required: true,
-    },
+    notes: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'danshitewazanote',
+    }],
 });
 
 module.exports = mongoose.model('danshitewaza', DanShiteWazaSchema);

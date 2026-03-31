@@ -26,9 +26,9 @@ router.post('/', jwtAuth, postBlock, createDanShiteWaza);
 // @secure true
 router.post('/:danShiteWazaId/notes', jwtAuth, postBlock, isValidObjectId('paramsDanShiteWaza'), createDanShiteWazaNote);
 
-// @route  PUT /api/danShiteWaza/:id/notes/:noteId
+// @route  PATCH /api/danShiteWaza/:id/notes/:noteId
 // @desc   update a note for a single dan shite waza
 // @secure true
-router.put('/:danShiteWazaId/notes/:noteId', jwtAuth, postBlock, isValidObjectId('paramsDanShiteWaza'), isValidObjectId('paramsNoteId'), updateDanShiteWazaNote);
+router.patch('/:danShiteWazaId/notes/:noteId', jwtAuth, postBlock, isValidObjectId('paramsDanShiteWaza'), isValidObjectId('paramsNoteId'), updateDanShiteWazaNote);
 
 module.exports = router;

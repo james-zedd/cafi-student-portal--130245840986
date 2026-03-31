@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const DanShiteWazaSchema = mongoose.Schema({
     author_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'users',
+        ref: 'user',
         required: true,
     },
     dan_shite_waza_id: {

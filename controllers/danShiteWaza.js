@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const DanShiteWaza = require("../models/DanShiteWaza");
 const DanShiteWazaNote = require("../models/DanShiteWazaNote");
+const User = require("../models/User");
 
 // @route  GET /api/danShiteWaza
 // @desc   get all dan shite waza
@@ -28,8 +29,13 @@ const getDanShiteWaza = asyncHandler(async (req, res) => {
     const { danShiteWazaId } = req.params;
 
     try {
-        const danShiteWaza = await DanShiteWaza.find({
-            _id: danShiteWazaId,
+        const senseis = await User.find({ roles: 'sensei' }).select('_id');
+        const senseiIds = senseis.map(s => s._id);
+
+        const danShiteWaza = await DanShiteWaza.findById(danShiteWazaId).populate({
+            path: 'notes',
+            match: { author_id: { $in: [req.user.id, ...senseiIds] } },
+            populate: { path: 'author_id', select: 'name' },
         });
 
         res.status(200).json({
@@ -78,16 +84,19 @@ const createDanShiteWaza = asyncHandler(async (req, res) => {
 // @secure true
 const createDanShiteWazaNote = asyncHandler(async (req, res) => {
     const { danShiteWazaId } = req.params;
-    const { auth } = req.headers;
     const { content } = req.body;
 
     try {
         const newDanShiteWazaNote = await DanShiteWazaNote.create({
-            author_id: auth._id,
+            author_id: req.user.id,
             dan_shite_waza_id: danShiteWazaId,
             content,
             createdAt: Date.now(),
             updatedAt: Date.now(),
+        });
+
+        await DanShiteWaza.findByIdAndUpdate(danShiteWazaId, {
+            $push: { notes: newDanShiteWazaNote._id },
         });
 
         res.status(201).json({
@@ -107,7 +116,6 @@ const createDanShiteWazaNote = asyncHandler(async (req, res) => {
 // @secure true
 const updateDanShiteWazaNote = asyncHandler(async (req, res) => {
     const { danShiteWazaId, noteId } = req.params;
-    const { auth } = req.headers;
     const { content } = req.body;
 
     try {
@@ -120,7 +128,7 @@ const updateDanShiteWazaNote = asyncHandler(async (req, res) => {
             throw new Error("Note not found");
         }
 
-        if (danShiteWazaNote.author_id.toString() !== auth._id.toString()) {
+        if (danShiteWazaNote.author_id.toString() !== req.user.id.toString()) {
             res.status(403);
             throw new Error("User not authorized to update this note");
         }
