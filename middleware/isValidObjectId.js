@@ -37,6 +37,20 @@ module.exports = (idKey) => {
                 idText = 'Exam';
                 break;
             }
+            case 'paramsDanShiteWaza': {
+                id = req.params.danShiteWazaId;
+                idText = 'Dan Shite Waza';
+                break;
+            }
+            case 'paramsNoteId': {
+                id = req.params.noteId;
+                idText = 'Note';
+                break;
+            }
+            default: {
+                res.status(500);
+                throw new Error('Server error -- Invalid idKey in isValidObjectId middleware.');
+            }
         }
 
         if (!mongoose.isValidObjectId(id)) {

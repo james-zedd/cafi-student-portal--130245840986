@@ -62,6 +62,7 @@ app.use('/api/exams', require('./routes/exams'));
 app.use('/api/technique', require('./routes/technique'));
 app.use('/api/variant', require('./routes/variant'));
 app.use('/api/kotoshitsumon', require('./routes/kotoShitsumon'));
+app.use('/api/danShiteWaza', require('./routes/danShiteWaza'));
 
 // error handler
 app.use(errorHandler);
