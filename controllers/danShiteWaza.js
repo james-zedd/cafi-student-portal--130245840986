@@ -146,4 +146,6 @@ module.exports = {
     getAllDanShiteWaza,
     getDanShiteWaza,
     createDanShiteWaza,
+    createDanShiteWazaNote,
+    updateDanShiteWazaNote,
 };
