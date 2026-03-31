@@ -1,7 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const DanShiteWaza = require("../models/DanShiteWaza");
 const DanShiteWazaNote = require("../models/DanShiteWazaNote");
-const User = require("../models/User");
 
 // @route  GET /api/danShiteWaza
 // @desc   get all dan shite waza
@@ -29,12 +28,9 @@ const getDanShiteWaza = asyncHandler(async (req, res) => {
     const { danShiteWazaId } = req.params;
 
     try {
-        const senseis = await User.find({ roles: 'sensei' }).select('_id');
-        const senseiIds = senseis.map(s => s._id);
-
         const danShiteWaza = await DanShiteWaza.findById(danShiteWazaId).populate({
             path: 'notes',
-            match: { author_id: { $in: [req.user.id, ...senseiIds] } },
+            match: { $or: [{ author_id: req.user.id }, { is_public: true }] },
             populate: { path: 'author_id', select: 'name' },
         });
 
@@ -87,10 +83,13 @@ const createDanShiteWazaNote = asyncHandler(async (req, res) => {
     const { content } = req.body;
 
     try {
+        const isSensei = req.user.roles?.includes('sensei');
+
         const newDanShiteWazaNote = await DanShiteWazaNote.create({
             author_id: req.user.id,
             dan_shite_waza_id: danShiteWazaId,
             content,
+            is_public: isSensei ? (req.body.is_public ?? false) : false,
             createdAt: Date.now(),
             updatedAt: Date.now(),
         });

@@ -15,6 +15,10 @@ const DanShiteWazaSchema = mongoose.Schema({
         type: String,
         required: true,
     },
+    is_public: {
+        type: Boolean,
+        default: false,
+    },
     created_at: {
         type: Date,
         default: Date.now,
