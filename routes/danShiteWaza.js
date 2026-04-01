@@ -3,6 +3,7 @@ const router = express.Router();
 const jwtAuth = require('../middleware/jwtAuth');
 const postBlock = require('../middleware/postBlock');
 const isValidObjectId = require('../middleware/isValidObjectId');
+const sanitizeHtml = require('../middleware/sanitizeHtml');
 
 const { getAllDanShiteWaza, getDanShiteWaza, createDanShiteWaza, createDanShiteWazaNote, updateDanShiteWazaNote } = require('../controllers/danShiteWaza');
 
@@ -24,11 +25,11 @@ router.post('/', jwtAuth, postBlock, createDanShiteWaza);
 // @route  POST /api/danShiteWaza/:id/notes
 // @desc   create a note for a single dan shite waza
 // @secure true
-router.post('/:danShiteWazaId/notes', jwtAuth, postBlock, isValidObjectId('paramsDanShiteWaza'), createDanShiteWazaNote);
+router.post('/:danShiteWazaId/notes', jwtAuth, postBlock, isValidObjectId('paramsDanShiteWaza'), sanitizeHtml(['content']), createDanShiteWazaNote);
 
 // @route  PATCH /api/danShiteWaza/:id/notes/:noteId
 // @desc   update a note for a single dan shite waza
 // @secure true
-router.patch('/:danShiteWazaId/notes/:noteId', jwtAuth, postBlock, isValidObjectId('paramsDanShiteWaza'), isValidObjectId('paramsNoteId'), updateDanShiteWazaNote);
+router.patch('/:danShiteWazaId/notes/:noteId', jwtAuth, postBlock, isValidObjectId('paramsDanShiteWaza'), isValidObjectId('paramsNoteId'), sanitizeHtml(['content']), updateDanShiteWazaNote);
 
 module.exports = router;

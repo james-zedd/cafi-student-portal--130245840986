@@ -4,6 +4,7 @@ const { check } = require('express-validator');
 const checkValidatorErrors = require('../middleware/checkValidatorErrors');
 const newsItemValidator = require('../middleware/newsItemValidator');
 const jwtAuth = require('../middleware/jwtAuth');
+const sanitizeHtml = require('../middleware/sanitizeHtml');
 
 const {
     getAllNewsItems,
@@ -30,6 +31,7 @@ router.get('/:id', jwtAuth, newsItemValidator, getNewsItemById);
 router.post(
     '/',
     jwtAuth,
+    sanitizeHtml(['body']),
     [check('body', 'Please add some text to your post').not().isEmpty()],
     checkValidatorErrors,
     createNewsItem
@@ -52,6 +54,7 @@ router.patch(
 router.patch(
     '/:id',
     jwtAuth,
+    sanitizeHtml(['body']),
     [check('body', 'Please add some text to your post').not().isEmpty()],
     checkValidatorErrors,
     newsItemValidator,

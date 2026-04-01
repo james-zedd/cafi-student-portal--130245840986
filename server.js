@@ -9,6 +9,7 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const rateLimit = require('express-rate-limit');
 const { errorHandler } = require('./middleware/errorHandler');
+const mongoSanitize = require('express-mongo-sanitize');
 
 const mongoConnection = require('./config/db');
 
@@ -30,6 +31,9 @@ const corsOptions = {
     allowedHeaders: ['Content-Type', 'httponly', 'Authorization'],
 };
 app.use(cors(corsOptions));
+
+// Middleware: Data sanitization against NoSQL injection
+app.use(mongoSanitize());
 
 // Middleware: Rate limiting (general)
 app.use(rateLimit({
