@@ -4,6 +4,7 @@ const jwtAuth = require('../middleware/jwtAuth');
 const postBlock = require('../middleware/postBlock');
 const isValidObjectId = require('../middleware/isValidObjectId');
 const sanitizeHtml = require('../middleware/sanitizeHtml');
+const hasRole = require('../middleware/hasRole');
 
 const { getAllDanShiteWaza, getDanShiteWaza, createDanShiteWaza, createDanShiteWazaNote, updateDanShiteWazaNote } = require('../controllers/danShiteWaza');
 
@@ -20,7 +21,7 @@ router.get('/:danShiteWazaId', jwtAuth, isValidObjectId('paramsDanShiteWaza'), g
 // @route  POST /api/danShiteWaza
 // @desc   create a single dan shite waza
 // @secure true
-router.post('/', jwtAuth, postBlock, createDanShiteWaza);
+router.post('/', jwtAuth, postBlock, hasRole(['admin']), createDanShiteWaza);
 
 // @route  POST /api/danShiteWaza/:id/notes
 // @desc   create a note for a single dan shite waza
