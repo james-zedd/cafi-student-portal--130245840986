@@ -18,6 +18,9 @@ if (!process.env.NODE_ENVIRONMENT == 'development') {
     console.log = () => {};
 }
 
+// Trust Render's proxy (required for express-rate-limit with X-Forwarded-For)
+app.set('trust proxy', 1);
+
 // Middleware: CORS
 const corsOptions = {
     origin: [
