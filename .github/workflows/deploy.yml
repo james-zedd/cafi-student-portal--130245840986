@@ -1,0 +1,37 @@
+name: Deploy to Google App Engine
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Authenticate with Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Deploy to App Engine
+        uses: google-github-actions/deploy-appengine@v2
+        with:
+          env_vars: |
+            MONGO_URI=${{ secrets.MONGO_URI }}
+            JWT_SECRET=${{ secrets.JWT_SECRET }}
+            REFRESH_TOKEN_SECRET=${{ secrets.REFRESH_TOKEN_SECRET }}
+            GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}
+            GOOGLE_CLIENT_ID_WEB=${{ secrets.GOOGLE_CLIENT_ID_WEB }}
+            GOOGLE_CLIENT_ID_ANDROID=${{ secrets.GOOGLE_CLIENT_ID_ANDROID }}
+            APPLE_CLIENT_ID=${{ secrets.APPLE_CLIENT_ID }}
+            RESEND_API_KEY=${{ secrets.RESEND_API_KEY }}
+            RESET_PASSWORD_URL=${{ secrets.RESET_PASSWORD_URL }}
+            POST_BLOCK=${{ secrets.POST_BLOCK }}
+            NODE_ENVIRONMENT=production
+            NODE_ENV=production

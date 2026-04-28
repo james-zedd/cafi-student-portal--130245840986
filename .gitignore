@@ -4,8 +4,5 @@ node_modules/
 # dotenv environment variables file
 .env
 
-# yaml files
-app.yaml
-
 # .DS_Store files (macOS)
 .DS_Store
