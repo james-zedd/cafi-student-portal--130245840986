@@ -22,6 +22,10 @@ const NewsSchema = mongoose.Schema({
     title: {
         type: String,
         maxLength: 100,
+    },
+    visible: {
+        type: Boolean,
+        default: true
     }
 });
 

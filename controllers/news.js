@@ -50,12 +50,14 @@ const getNewsItemById = asyncHandler(async (req, res) => {
 // @desc   create a news item
 // @secure true
 const createNewsItem = asyncHandler(async (req, res) => {
-    const { body } = req.body;
+    const { title, body, visible } = req.body;
 
     try {
         const news = new News({
             publisher: req.user.id,
             body: body,
+            title: title,
+            visible: visible,
         });
 
         news.save();
@@ -75,10 +77,10 @@ const createNewsItem = asyncHandler(async (req, res) => {
 // @desc   update a news item
 // @secure true
 const updateNewsItem = asyncHandler(async (req, res) => {
-    const { body } = req.body;
+    const { title, body, visible } = req.body;
 
     try {
-        await req.newsItem.updateOne({ body: body, lastUpdatedAt: Date.now() });
+        await req.newsItem.updateOne({ title: title, body: body, visible: visible, updatedAt: Date.now() });
 
         res.status(200).json({
             status: 200,
@@ -120,7 +122,7 @@ const toggleVisibilityManyNewsItems = asyncHandler(async (req, res) => {
 // @secure true
 const deleteNewsItem = asyncHandler(async (req, res) => {
     try {
-        await req.newsItem.deleteOne({ _id: id });
+        await req.newsItem.deleteOne();
 
         res.status(200).json({
             status: 200,
