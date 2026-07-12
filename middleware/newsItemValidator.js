@@ -19,7 +19,9 @@ module.exports = asyncHandler(async (req, res, next) => {
         throw new Error('No news item found.');
     }
 
-    if (req.method === 'PATCH' || req.method === 'DELETE') {
+    // updating or deleting a news item should be done by the publisher of the news item
+    // exception if the user is an admin
+    if (req.method === 'PATCH' || req.method === 'DELETE' && !req.user.roles.includes('admin')) {
         const publisher = req.user.id;
 
         if (publisher !== newsItem.publisher.toString()) {
