@@ -26,6 +26,13 @@ const getAllKotoShitsumonItems = asyncHandler(async (req, res) => {
 const createKotoShitsumonItem = asyncHandler(async (req, res) => {
     const { id, question, categories, correct_answer, explanation, answers } = req.body;
 
+    // if there is a duplicate id, return an error
+    const existingItem = await KotoShitsumon.findOne({ id });
+    if (existingItem) {
+        res.status(400);
+        throw new Error('A koto shitsumon item with this ID already exists.');
+    }
+
     try {
         const kotoShitsumonItem = new KotoShitsumon({
             id,
@@ -58,7 +65,7 @@ const updateKotoShitsumonItem = asyncHandler(async (req, res) => {
     const { question, categories, correct_answer, explanation, answers } = req.body;
 
     try {
-        const kotoShitsumonItem = await KotoShitsumon.findOne({ id });
+        const kotoShitsumonItem = await KotoShitsumon.findOne({ _id: id });
 
         if (!kotoShitsumonItem) {
             res.status(404);
@@ -85,8 +92,33 @@ const updateKotoShitsumonItem = asyncHandler(async (req, res) => {
     }
 });
 
+const deleteKotoShitsumonItem = asyncHandler(async (req, res) => {
+    const { id } = req.params;
+
+    try {
+        const kotoShitsumonItem = await KotoShitsumon.findOne({ _id: id });
+
+        if (!kotoShitsumonItem) {
+            res.status(404);
+            throw new Error('Koto shitsumon item not found.');
+        }
+
+        await kotoShitsumonItem.remove();
+
+        res.status(200).json({
+            status: 200,
+            message: 'Successfully deleted koto shitsumon item',
+        });
+    } catch (error) {
+        console.error(error.message);
+        res.status(500);
+        throw new Error(`Server error -- ${error.message}`);
+    }
+});
+
 module.exports = {
     getAllKotoShitsumonItems,
     createKotoShitsumonItem,
     updateKotoShitsumonItem,
+    deleteKotoShitsumonItem,
 };

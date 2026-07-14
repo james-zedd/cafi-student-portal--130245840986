@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const jwtAuth = require('../middleware/jwtAuth');
 
-const { getAllKotoShitsumonItems, createKotoShitsumonItem, updateKotoShitsumonItem } = require('../controllers/kotoShitsumon');
+const { getAllKotoShitsumonItems, createKotoShitsumonItem, updateKotoShitsumonItem, deleteKotoShitsumonItem } = require('../controllers/kotoShitsumon');
 
 // route  GET /api/kotoshitsumon
 // desc   get all koto shitsumon
@@ -18,5 +18,10 @@ router.post('/', jwtAuth, createKotoShitsumonItem);
 // desc   update a koto shitsumon
 // secure true
 router.patch('/:id', jwtAuth, updateKotoShitsumonItem);
+
+// route  DELETE /api/kotoshitsumon/:id
+// desc   delete a koto shitsumon
+// secure true
+router.delete('/:id', jwtAuth, deleteKotoShitsumonItem);
 
 module.exports = router;
