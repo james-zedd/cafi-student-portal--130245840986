@@ -47,6 +47,11 @@ module.exports = (idKey) => {
                 idText = 'Note';
                 break;
             }
+            case 'paramsUser': {
+                id = req.params.userId;
+                idText = 'User';
+                break;
+            }
             default: {
                 res.status(500);
                 throw new Error('Server error -- Invalid idKey in isValidObjectId middleware.');
