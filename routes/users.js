@@ -7,7 +7,13 @@ const hasRole = require('../middleware/hasRole');
 const isValidObjectId = require('../middleware/isValidObjectId');
 const checkValidatorErrors = require('../middleware/checkValidatorErrors');
 
-const { addUser, updateUser } = require('../controllers/user');
+const { getAllUsers, addUser, updateUser } = require('../controllers/user');
+
+// @route  GET /api/users
+// @desc   get all users
+// @secure true
+// @admin  true
+router.get('/', jwtAuth, hasRole(['admin']), getAllUsers);
 
 // @route  POST /api/users
 // @desc   Add a user

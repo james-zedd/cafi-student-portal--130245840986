@@ -13,8 +13,8 @@ const mongoSanitize = require('express-mongo-sanitize');
 
 const mongoConnection = require('./config/db');
 
-// disable console.log except in development environment
-if (!process.env.NODE_ENVIRONMENT == 'development') {
+// disable console.log in production
+if (process.env.NODE_ENVIRONMENT === 'production') {
     console.log = () => {};
 }
 

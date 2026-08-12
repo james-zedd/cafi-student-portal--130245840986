@@ -6,6 +6,31 @@ const { validationResult } = require('express-validator');
 const User = require('../models/User');
 const { createAuditLog } = require('./auditLog');
 
+// @route  GET /api/users
+// @desc   get all users
+// @secure true
+// @admin  true
+const getAllUsers = asyncHandler(async (req, res) => {
+    try {
+        const users = await User.find().select('name email roles');
+
+        res.status(200).json({
+            status: 200,
+            message: 'Successfully retrieved users.',
+            data: users.map((user) => ({
+                id: user.id,
+                name: user.name,
+                email: user.email,
+                roles: user.roles,
+            })),
+        });
+    } catch (error) {
+        console.error(error.message);
+        res.status(500);
+        throw new Error(`Server error -- ${error.message}`);
+    }
+});
+
 // @route  POST /api/users
 // @desc   Add a user
 // @secure true
@@ -147,6 +172,7 @@ const updateUser = asyncHandler(async (req, res) => {
 });
 
 module.exports = {
+    getAllUsers,
     addUser,
     updateUser,
 };
