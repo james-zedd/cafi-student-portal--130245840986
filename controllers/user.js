@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const { validationResult } = require('express-validator');
 
 const User = require('../models/User');
+const { createAuditLog } = require('./auditLog');
 
 // @route  POST /api/users
 // @desc   Add a user
@@ -36,6 +37,12 @@ const addUser = async (req, res) => {
         user.password = await bcrypt.hash(password, salt);
 
         await user.save();
+
+        await createAuditLog({
+            usrId: req.user.id,
+            route: req.originalUrl,
+            method: req.method,
+        });
 
         const payload = {
             user: {
@@ -90,6 +97,8 @@ const updateUser = asyncHandler(async (req, res) => {
         throw new Error('User not found.');
     }
 
+    const changes = [];
+
     if (email && email !== user.email) {
         const existingUser = await User.findOne({ email: email });
 
@@ -98,18 +107,32 @@ const updateUser = asyncHandler(async (req, res) => {
             throw new Error('user already exists.');
         }
 
+        changes.push({ field: 'email', before: user.email, after: email });
         user.email = email;
     }
 
-    if (name) {
+    if (name && name !== user.name) {
+        changes.push({ field: 'name', before: user.name, after: name });
         user.name = name;
     }
 
-    if (roles) {
+    if (
+        roles &&
+        (roles.length !== user.roles.length ||
+            roles.some((role) => !user.roles.includes(role)))
+    ) {
+        changes.push({ field: 'roles', before: user.roles, after: roles });
         user.roles = roles;
     }
 
     await user.save();
+
+    await createAuditLog({
+        usrId: req.user.id,
+        route: req.originalUrl,
+        method: req.method,
+        changes: changes,
+    });
 
     res.status(200).json({
         status: 200,
