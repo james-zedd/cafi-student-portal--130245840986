@@ -7,7 +7,7 @@ const createAuditLog = async ({ usrId, route, method, changes }) => {
 
         if (!usr) {
             console.error(
-                `Failed to create audit log -- actor ${usrId} not found.`
+                `Failed to create audit log -- user with id ${usrId} not found.`
             );
             return;
         }
