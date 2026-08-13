@@ -42,7 +42,7 @@ const addUser = async (req, res) => {
         return res.status(400).json({ errors: errors.array() });
     }
 
-    const { name, email, password } = req.body;
+    const { name, email, password, roles } = req.body;
 
     try {
         let user = await User.findOne({ email: email });
@@ -55,6 +55,7 @@ const addUser = async (req, res) => {
             name: name,
             email: email,
             password: password,
+            roles: roles || ['student'],
         });
 
         const salt = await bcrypt.genSalt(10);
